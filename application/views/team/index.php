@@ -30,11 +30,12 @@
                     <th>JUMLAH ANGGOTA</th>
                     <th>SEMESTER</th>
                     <th>TAHUN AJAR</th>
-                    <th>TANGGAL AWAL LOMBA</th>
-                    <th>TANGGAL AKHIR LOMBA</th>
-                    <th>TEMPAT LOMBA</th>
+                    <th>TANGGAL AWAL</th>
+                    <th>TANGGAL AKHIR</th>
+                    <th>TEMPAT</th>
                     <th>PRESTASI</th>
                     <th>BUKTI</th>
+                    <th>FOTO</th>
                     <th>PROSES</th>
         </tr>
       </thead>
@@ -48,7 +49,7 @@
             <th><?php echo $item->cnmteam; ?></th>
             <th><?php echo $item->cjmlagt; ?></th>
             <th><?php echo $item->csmt == 'o' ? 'Gasal' : 'Genap'; ?></th>
-            <th><?php echo $item->cthnajar; ?></th>
+            <th><?php echo substr($item->cthnajar, 0, 4) . '/' . substr($item->cthnajar, 4, 4); ?></th>
             <th><?php echo $this->pustaka->tanggal_indo($item->ctglawallomba); ?></th>
             <th><?php echo $this->pustaka->tanggal_indo($item->ctglakhirlomba); ?></th>
             <th><?php echo $item->ctempatlomba; ?></th>

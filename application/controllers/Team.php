@@ -12,7 +12,7 @@ class Team extends CI_Controller {
 	function index($nokegiatan) {
 		$data['isi'] = "team/index";
 		$data['data']['kegiatan'] = $this->db->get_where('mkegiatan', array('cnokegiatan' => $nokegiatan))->row();
-		$data['data']['team'] = $this->db->get($this->tabel)->result();
+		$data['data']['team'] = $this->db->get_where($this->tabel, array('cnokegiatan' => $nokegiatan))->result();
 		$this->load->view("template/template", $data);
 	}
 
