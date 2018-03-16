@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kategoriprestasi extends CI_Controller {
+class Kategori extends CI_Controller {
 	var $tabel;
 
 	function __construct(){
 		parent::__construct();
-		$this->tabel = "mkategoriprestasi";
+		$this->tabel = "mkategori";
 	}
 
 	function index() {
@@ -29,7 +29,7 @@ class Kategoriprestasi extends CI_Controller {
 			$data
 		);
 
-		redirect(base_url('kategoriprestasi'));
+		redirect(base_url('kategori'));
 	}
 
 	function ubah($nokategori) {
@@ -54,7 +54,7 @@ class Kategoriprestasi extends CI_Controller {
 			$where
 		);
 
-		redirect(base_url('kategoriprestasi'));
+		redirect(base_url('kategori'));
 	}
 
 	function aksi_hapus($nokategori) {
@@ -64,7 +64,7 @@ class Kategoriprestasi extends CI_Controller {
 			$where
 		);
 
-		redirect(base_url('kategoriprestasi'));
+		redirect(base_url('kategori'));
 	}
 
 }

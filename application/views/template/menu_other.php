@@ -1,16 +1,9 @@
 <li class="header">MENU UTAMA</li>
 
 <li>
-	<a href="<?php echo base_url("kategoriprestasi"); ?>">
+	<a href="<?php echo base_url("kategori"); ?>">
 		<i class="fa fa-users text-aqua"></i>
-		<span>Kategori Prestasi</span>
-	</a>
-</li>
-
-<li>
-	<a href="<?php echo base_url("teammahasiswa"); ?>">
-		<i class="fa fa-users text-aqua"></i>
-		<span>Team Mahasiswa</span>
+		<span>Kategori</span>
 	</a>
 </li>
 
@@ -22,8 +15,8 @@
 </li>
 
 <li>
-	<a href="<?php echo base_url("prestasi"); ?>">
+	<a href="<?php echo base_url("kegiatan"); ?>">
 		<i class="fa fa-users text-aqua"></i>
-		<span>Prestasi</span>
+		<span>Kegiatan</span>
 	</a>
 </li>
