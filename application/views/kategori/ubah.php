@@ -9,7 +9,7 @@
 
     <div class="form-group">
       <label for="nokategori">NO Kategori</label>
-          <input required value="<?php echo $data['kategori']->cnokategori; ?>" type="text" class="form-control" id="nokategori" placeholder="Isi NO Kategori" name="nokategori">
+          <input readonly required value="<?php echo $data['kategori']->cnokategori; ?>" type="text" class="form-control" id="nokategori" placeholder="Isi NO Kategori" name="nokategori">
     </div>
 
     <div class="form-group">
