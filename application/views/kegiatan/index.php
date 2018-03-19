@@ -60,9 +60,7 @@
             <th><?php echo $tingkat; ?></th>
             <th><?php echo $this->db->get_where('mkategori', array('cnokategori' => $item->cnokategori))->row()->cnmkategori; ?></th>
               <th>
-                <a class="btn btn-primary" href="<?php echo base_url('team/index/'.$item->cnokegiatan) ?>"> <i class="fa fa-share"></i> Team</a>
-                <a class="btn btn-info" href="<?php echo base_url('kegiatan/ubah/'.$item->cnokegiatan) ?>"> <i class="fa fa-pencil"></i></a>
-                <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnokegiatan; ?>')"> <i class="fa fa-trash"></i></a>
+                <a class="btn btn-primary" href="<?php echo base_url('kegiatan/detail/'.$item->cnokegiatan) ?>"> <i class="fa fa-share"></i> Detail</a>
               </th>
           </tr>
           <?php
