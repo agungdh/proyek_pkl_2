@@ -27,7 +27,7 @@
       $cnmkategori = $data['kategori_id']->cnmkategori;
     } else {
       $action = base_url('kategori/aksi_tambah/');
-      $cnokategori = str_pad($data['ai'],3,"0",STR_PAD_LEFT);;
+      $cnokategori = str_pad($data['ai'],3,"0",STR_PAD_LEFT);
       $cnmkategori = null;
     }
     ?>

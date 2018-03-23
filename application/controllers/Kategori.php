@@ -26,11 +26,14 @@ class Kategori extends CI_Controller {
 
 	function aksi_tambah() {
 		$data['cnmkategori'] = $this->input->post('kategori');
-		$data['cnokategori'] = $this->input->post('nokategori');
+		
 		$this->db->insert(
 			$this->tabel,
 			$data
 		);
+		
+		$data['cnokategori'] = str_pad($this->db->insert_id(),3,"0",STR_PAD_LEFT);
+		$this->db->update($this->tabel, $data, array('ai' => $this->db->insert_id()));
 
 		redirect(base_url('kategori'));
 	}
