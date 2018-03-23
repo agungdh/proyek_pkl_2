@@ -9,9 +9,12 @@ class Kategori extends CI_Controller {
 		$this->tabel = "mkategori";
 	}
 
-	function index() {
+	function index($cnokategori = null) {
 		$data['isi'] = "kategori/index";
 		$data['data']['kategori'] = $this->db->get($this->tabel)->result();
+		$data['data']['kategori_id'] = $this->db->get_where($this->tabel, array('cnokategori' => $cnokategori))->row();
+		$data['data']['ai'] = $this->m_universal->ai($this->tabel);
+		
 		$this->load->view("template/template", $data);
 	}
 

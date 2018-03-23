@@ -19,7 +19,51 @@
     <div class="box-body">
 
     <div class="form-group">
-      <a href='<?php echo base_url("kategori/tambah/"); ?>'><button class="btn btn-success"><i class="fa fa-plus"></i> Kategori</button></a>
+
+    <?php
+    if ($data['kategori_id'] != null) {
+      $action = base_url('kategori/aksi_ubah/');
+      $cnokategori = $data['kategori_id']->cnokategori;
+      $cnmkategori = $data['kategori_id']->cnmkategori;
+    } else {
+      $action = base_url('kategori/aksi_tambah/');
+      $cnokategori = str_pad($data['ai'],3,"0",STR_PAD_LEFT);;
+      $cnmkategori = null;
+    }
+    ?>
+
+    <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>">
+      <div class="box-body">
+
+      <div class="form-group">
+
+        <label for="nokategori">NO Kategori</label>
+            <input readonly value="<?php echo $cnokategori; ?>" required type="text" class="form-control" id="nokategori" placeholder="Isi NO Kategori" name="nokategori">
+      </div>
+
+      <div class="form-group">
+        <label for="kategori">Kategori</label>
+            <input value="<?php echo $cnmkategori; ?>" required type="text" class="form-control" id="kategori" placeholder="Isi Kategori" name="kategori">
+      </div>
+
+      </div><!-- /.box-body -->
+
+      <div class="box-footer">
+        <?php
+        if ($data['kategori_id'] == null) {
+          ?>
+          <input class="btn btn-success" name="proses" type="submit" value="Tambah Data" />
+          <input class="btn btn-info" name="proses" type="reset" value="Batal" />
+          <?php
+        } else {
+          ?>
+          <input class="btn btn-success" name="proses" type="submit" value="Ubah Data" />
+          <a href="<?php echo base_url('kategori'); ?>" class="btn btn-info">Batal</a>
+          <?php
+        }
+        ?>
+      </div>
+    </form>
     </div>
 
     <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
@@ -39,7 +83,7 @@
             <th><?php echo $item->cnokategori; ?></th>
             <th><?php echo $item->cnmkategori; ?></th>
               <th>
-                <a class="btn btn-info" href="<?php echo base_url('kategori/ubah/'.$item->cnokategori) ?>"> <i class="fa fa-pencil"></i></a>
+                <a class="btn btn-info" href="<?php echo base_url('kategori/index/'.$item->cnokategori) ?>"> <i class="fa fa-pencil"></i></a>
                 <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnokategori; ?>')"> <i class="fa fa-trash"></i></a>
               </th>
           </tr>
