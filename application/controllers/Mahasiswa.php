@@ -9,9 +9,10 @@ class Mahasiswa extends CI_Controller {
 		$this->tabel = "mmhs";
 	}
 
-	function index() {
+	function index($cnim = null) {
 		$data['isi'] = "mahasiswa/index";
 		$data['data']['mahasiswa'] = $this->db->get($this->tabel)->result();
+		$data['data']['mahasiswa_id'] = $this->db->get_where($this->tabel, array('cnim' => $cnim))->row();
 		$this->load->view("template/template", $data);
 	}
 
