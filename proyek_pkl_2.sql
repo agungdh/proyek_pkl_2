@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 23, 2018 at 03:11 AM
+-- Generation Time: Mar 23, 2018 at 04:08 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -33,6 +33,17 @@ CREATE TABLE `mkategori` (
   `cnmkategori` varchar(20) NOT NULL,
   `ai` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mkategori`
+--
+
+INSERT INTO `mkategori` (`cnokategori`, `cnmkategori`, `ai`) VALUES
+('001', 'Seni', 1),
+('002', 'Olah Raga', 2),
+('003', 'Keagamaan', 3),
+('004', 'Sains', 4),
+('005', 'Lain-lain', 5);
 
 -- --------------------------------------------------------
 
@@ -337,7 +348,7 @@ ALTER TABLE `tagtteam`
 -- AUTO_INCREMENT for table `mkategori`
 --
 ALTER TABLE `mkategori`
-  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `mkegiatan`
