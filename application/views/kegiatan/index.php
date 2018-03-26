@@ -19,7 +19,63 @@
     <div class="box-body">
 
     <div class="form-group">
-      <a href='<?php echo base_url("kegiatan/tambah/"); ?>'><button class="btn btn-success"><i class="fa fa-plus"></i> Kegiatan</button></a>
+      
+    <?php
+    if ($data['kegiatan_id'] != null) {
+      $action = base_url('kegiatan/aksi_ubah/');
+      $cnokegiatan = $data['kegiatan_id']->cnokegiatan;
+      $cnmkegiatan = $data['kegiatan_id']->cnmkegiatan;
+    } else {
+      $action = base_url('kegiatan/aksi_tambah/');
+      $cnokegiatan = str_pad($data['ai'],3,"0",STR_PAD_LEFT);
+      $cnmkegiatan = null;
+    }
+    ?>
+
+
+       <form name="form" id="form" role="form" method="post" action="<?php echo base_url('kegiatan/aksi_tambah/'); ?>">
+    <div class="box-body">
+
+    <div class="form-group">
+      <label for="nokegiatan">NO Kegiatan</label>
+          <input readonly value="<?php echo $cnokegiatan; ?>" required type="text" class="form-control" id="nokegiatan" placeholder="Isi NO Kegiatan" name="nokegiatan">
+    </div>
+
+    <div class="form-group">
+      <label for="kegiatan">Kegiatan</label>
+          <input required type="text" class="form-control" id="kegiatan" placeholder="Isi Kegiatan" name="kegiatan">
+    </div>
+
+    <div class="form-group">
+      <label for="tingkat">Tingkat</label>
+          <select class="form-control select2" name="tingkat">
+            <option value="l">Lokal</option>
+            <option value="n">Nasional</option>
+            <option value="i">Internasional</option>
+          </select>
+    </div>
+
+    <div class="form-group">
+      <label for="nokategori">Kategori</label>
+          <select class="form-control select2" name="nokategori">
+            <?php
+            foreach ($this->db->get('mkategori')->result() as $item) {
+              ?>
+              <option value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
+              <?php
+            }
+            ?>
+          </select>
+    </div>
+
+    </div><!-- /.box-body -->
+
+    <div class="box-footer">
+      <input class="btn btn-success" name="proses" type="submit" value="Simpan Data" />
+      <a href="<?php echo base_url('kegiatan'); ?>" class="btn btn-info">Batal</a>
+    </div>
+  </form>
+
     </div>
 
     <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">

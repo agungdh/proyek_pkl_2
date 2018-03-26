@@ -9,9 +9,11 @@ class Kegiatan extends CI_Controller {
 		$this->tabel = "mkegiatan";
 	}
 
-	function index() {
+	function index($cnokegiatan = null) {
 		$data['isi'] = "kegiatan/index";
 		$data['data']['kegiatan'] = $this->db->get($this->tabel)->result();
+		$data['data']['ai'] = $this->m_universal->ai($this->tabel);
+		$data['data']['kegiatan_id'] = $this->db->get_where($this->tabel, array('cnokegiatan' => $cnokegiatan))->row();
 		$this->load->view("template/template", $data);
 	}
 
@@ -39,22 +41,19 @@ class Kegiatan extends CI_Controller {
 	}
 
 	function aksi_tambah() {
-		$data['cnokegiatan'] = $this->input->post('nokegiatan');
 		$data['cnmkegiatan'] = $this->input->post('kegiatan');
 		$data['ctingkat'] = $this->input->post('tingkat');
 		$data['cnokategori'] = $this->input->post('nokategori');
+				
+		$this->db->insert(
+			$this->tabel,
+			$data
+		);
 		
-		if ($this->db->get_where('mkegiatan', array('cnokegiatan' => str_pad($data['cnokegiatan'], 3, '0', STR_PAD_LEFT))) != null) {
-			$sql = "SELECT cnokegiatan
-					FROM mkegiatan
-					ORDER BY cnokegiatan DESC
-					LIMIT 1";
-			$data['cnokegiatan'] = $this->db->query($sql, array())->row()->cnokegiatan + 1;
-		} 
-		$this->db->insert($this->tabel, $data);
-		$data1 = $this->db->get_where('mkegiatan', array('cnokegiatan' => $data['cnokegiatan']))->row();	
-		
-		redirect(base_url('kegiatan/detail/' . $data1->cnokegiatan));
+		$data['cnokegiatan'] = str_pad($this->db->insert_id(),3,"0",STR_PAD_LEFT);
+		$this->db->update($this->tabel, $data, array('ai' => $this->db->insert_id()));
+
+		redirect(base_url('kegiatan/index/' . $data['cnokegiatan']));
 	}
 
 	function ubah($nokegiatan) {
