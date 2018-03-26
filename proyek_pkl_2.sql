@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 23, 2018 at 04:08 AM
+-- Generation Time: Mar 26, 2018 at 10:02 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -58,6 +58,13 @@ CREATE TABLE `mkegiatan` (
   `cnokategori` varchar(3) NOT NULL,
   `ai` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mkegiatan`
+--
+
+INSERT INTO `mkegiatan` (`cnokegiatan`, `cnmkegiatan`, `ctingkat`, `cnokategori`, `ai`) VALUES
+('014', 'voli', 'l', '001', 14);
 
 -- --------------------------------------------------------
 
@@ -348,13 +355,13 @@ ALTER TABLE `tagtteam`
 -- AUTO_INCREMENT for table `mkategori`
 --
 ALTER TABLE `mkategori`
-  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `mkegiatan`
 --
 ALTER TABLE `mkegiatan`
-  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `mteammhs`
