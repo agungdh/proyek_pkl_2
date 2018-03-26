@@ -25,15 +25,19 @@
       $action = base_url('kegiatan/aksi_ubah/');
       $cnokegiatan = $data['kegiatan_id']->cnokegiatan;
       $cnmkegiatan = $data['kegiatan_id']->cnmkegiatan;
+      $ctingkat = $data['kegiatan_id']->ctingkat;
+      $cnokategori = $data['kegiatan_id']->cnokategori;
     } else {
       $action = base_url('kegiatan/aksi_tambah/');
       $cnokegiatan = str_pad($data['ai'],3,"0",STR_PAD_LEFT);
       $cnmkegiatan = null;
+      $ctingkat = null;
+      $cnokategori = null;
     }
     ?>
 
 
-       <form name="form" id="form" role="form" method="post" action="<?php echo base_url('kegiatan/aksi_tambah/'); ?>">
+       <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>">
     <div class="box-body">
 
     <div class="form-group">
@@ -43,15 +47,15 @@
 
     <div class="form-group">
       <label for="kegiatan">Kegiatan</label>
-          <input required type="text" class="form-control" id="kegiatan" placeholder="Isi Kegiatan" name="kegiatan">
+          <input required value="<?php echo $cnmkegiatan; ?>" type="text" class="form-control" id="kegiatan" placeholder="Isi Kegiatan" name="kegiatan">
     </div>
 
     <div class="form-group">
       <label for="tingkat">Tingkat</label>
           <select class="form-control select2" name="tingkat">
-            <option value="l">Lokal</option>
-            <option value="n">Nasional</option>
-            <option value="i">Internasional</option>
+            <option <?php echo $ctingkat == 'l' ? 'selected' : null; ?> value="l">Lokal</option>
+            <option <?php echo $ctingkat == 'n' ? 'selected' : null; ?> value="n">Nasional</option>
+            <option <?php echo $ctingkat == 'i' ? 'selected' : null; ?> value="i">Internasional</option>
           </select>
     </div>
 
@@ -60,9 +64,15 @@
           <select class="form-control select2" name="nokategori">
             <?php
             foreach ($this->db->get('mkategori')->result() as $item) {
-              ?>
-              <option value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
-              <?php
+              if ($item->cnokategori == $cnokategori) {
+                ?>
+                <option selected value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
+                <?php
+              } else {
+                ?>
+                <option value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
+                <?php
+              }
             }
             ?>
           </select>
@@ -71,8 +81,20 @@
     </div><!-- /.box-body -->
 
     <div class="box-footer">
-      <input class="btn btn-success" name="proses" type="submit" value="Simpan Data" />
-      <a href="<?php echo base_url('kegiatan'); ?>" class="btn btn-info">Batal</a>
+        <?php
+        if ($data['kegiatan_id'] == null) {
+          ?>
+          <input class="btn btn-success" name="proses" type="submit" value="Tambah Data" />
+          <input class="btn btn-info" name="proses" type="reset" value="Batal" />
+          <?php
+        } else {
+          ?>
+          <input class="btn btn-success" name="proses" type="submit" value="Ubah Data" />
+          <a href="<?php echo base_url('kegiatan'); ?>" class="btn btn-info">Batal</a>
+          <a class="btn btn-danger" onclick="hapus('<?php echo $cnokegiatan; ?>')"> Hapus</a>
+          <?php
+        }
+        ?>
     </div>
   </form>
 
@@ -116,7 +138,7 @@
             <th><?php echo $tingkat; ?></th>
             <th><?php echo $this->db->get_where('mkategori', array('cnokategori' => $item->cnokategori))->row()->cnmkategori; ?></th>
               <th>
-                <a class="btn btn-primary" href="<?php echo base_url('kegiatan/detail/'.$item->cnokegiatan) ?>"> <i class="fa fa-share"></i> Detail</a>
+                <a class="btn btn-primary" href="<?php echo base_url('kegiatan/index/'.$item->cnokegiatan) ?>"> <i class="fa fa-share"></i> Detail</a>
               </th>
           </tr>
           <?php
