@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 26, 2018 at 10:02 AM
+-- Generation Time: Mar 26, 2018 at 10:22 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -294,6 +294,7 @@ CREATE TABLE `mteammhs` (
   `cuserentri` varchar(10) NOT NULL,
   `dtglentri` date NOT NULL,
   `cnokegiatan` varchar(3) NOT NULL,
+  `ctempatlomba` varchar(50) NOT NULL,
   `ai` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
