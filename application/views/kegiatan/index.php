@@ -3,9 +3,8 @@
 // exit();
 ?>
 <script type="text/javascript" language="javascript" >
-  var dTable;
   $(document).ready(function() {
-    dTable = $('#lookup').DataTable({
+    $('#lookup2').DataTable({
       responsive: true
     });
   });
@@ -35,7 +34,6 @@
       $cnokategori = null;
     }
     ?>
-
 
        <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>">
     <div class="box-body">
@@ -100,7 +98,54 @@
 
     </div>
 
+<?php 
+if ($data['kegiatan_id'] != null) {
+  ?>
+      <h4><strong><font color=blue>DATA TEAM</font></strong></h4>
+
     <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+                    <th>TEAM</th>
+                    <th>JUMLAH ANGGOTA</th>
+                    <th>SEMESTER</th>
+                    <th>TAHUN AJAR</th>
+                    <th>TANGGAL LOMBA</th>
+                    <th>TEMPAT LOMBA</th>
+                    <th>FOTO TEAM</th>
+                    <th>PROSES</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <form id="kegiatan<?php echo $data["kegiatan_id"]->cnokegiatan; ?>">
+            <th><input class="form-control" type="text" name="nama_team"></th>
+            <th><input class="form-control" type="text" name="jumlah_anggota"></th>
+            <th><input class="form-control" type="text" name="semester"></th>
+            <th><input class="form-control" type="date" name="tahun_ajar">/<input class="form-control" type="date" name="tahun_ajar"></th>
+            <th><input class="form-control" type="date" name="tanggal_awal_lomba"> - <input class="form-control" type="date" name="tanggal_akhir_lomba"></th>
+            <th><input class="form-control" type="text" name="tempat_lombah"></th>
+            <th><input class="form-control" type="file" name="foto_team"></th>
+            <th><a class="btn btn-success" onclick="$('#kegiatan<?php echo $data["kegiatan_id"]->cnokegiatan; ?>').submit()"><i class="glyphicon glyphicon-plus"></i></a></th>
+          </form>
+        </tr>
+
+      </tbody>
+      
+    </table>
+
+    <br>
+    <br>
+
+  <?php  
+}
+?>
+
+    <h4><strong><font color=blue>DATA KEGIATAN</font></strong></h4>
+
+    <table id="lookup2" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
       <thead>
         <tr>
                     <th>NO KEGIATAN</th>
