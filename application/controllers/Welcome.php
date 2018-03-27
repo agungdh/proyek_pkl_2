@@ -11,8 +11,9 @@ class Welcome extends CI_Controller {
 	}
 
 	function aksi_login() {
-		$where['username'] = $this->input->post('username');
-		$where['password'] = hash('sha512', $this->input->post('password'));
+		$where['cusername'] = $this->input->post('username');
+		$where['cpassword'] = hash('sha512', $this->input->post('password'));
+
 		$data_user = $this->db->get_where(
 			'user',
 			$where
@@ -21,7 +22,8 @@ class Welcome extends CI_Controller {
 			
 			$array_data_user = array(
 				'cuserentri'  => $data_user->cuserentri,
-				'username'  => $data_user->username,
+				'username'  => $data_user->cusername,
+				'nama'  => $data_user->cnama,
 				'login'  => true
 			);
 

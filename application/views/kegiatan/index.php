@@ -120,17 +120,37 @@ if ($data['kegiatan_id'] != null) {
       <tbody>
 
         <tr>
-          <form id="kegiatan<?php echo $data["kegiatan_id"]->cnokegiatan; ?>">
+          <form id="kegiatan<?php echo $data["kegiatan_id"]->cnokegiatan; ?>" action="<?php echo base_url('kegiatan/aksi_tambah_team'); ?>" method="post">
             <th><input class="form-control" type="text" name="nama_team"></th>
             <th><input class="form-control" type="text" name="jumlah_anggota"></th>
             <th><input class="form-control" type="text" name="semester"></th>
-            <th><input class="form-control" type="date" name="tahun_ajar">/<input class="form-control" type="date" name="tahun_ajar"></th>
+            <th><input class="form-control" type="number" min="1900" max="2900" name="tahun_ajar_awal">/<input class="form-control" type="number" min="1900" max="2900" name="tahun_ajar_akhir"></th>
             <th><input class="form-control" type="date" name="tanggal_awal_lomba"> - <input class="form-control" type="date" name="tanggal_akhir_lomba"></th>
-            <th><input class="form-control" type="text" name="tempat_lombah"></th>
+            <input type="hidden" name="userentri" value="<?php echo $this->session->cuserentri; ?>">
+            <input type="hidden" name="tglentri" value="<?php echo date('Y-m-d'); ?>">
+            <input type="hidden" name="cnokegiatan" value="<?php echo $data['kegiatan_id']->cnokegiatan; ?>">
+            <th><input class="form-control" type="text" name="tempat_lomba"></th>
             <th><input class="form-control" type="file" name="foto_team"></th>
             <th><a class="btn btn-success" onclick="$('#kegiatan<?php echo $data["kegiatan_id"]->cnokegiatan; ?>').submit()"><i class="glyphicon glyphicon-plus"></i></a></th>
           </form>
         </tr>
+
+        <?php
+        foreach ($this->db->get_where('mteammhs', array('cnokegiatan' => $data['kegiatan_id']->cnokegiatan))->result() as $item) {
+          ?>
+          <tr>
+            <td><?php echo $item->cnmteam; ?></td>
+            <td><?php echo $item->cjmlagt; ?></td>
+            <td><?php echo $item->csmt; ?></td>
+            <td><?php echo substr($item->cthnajar, 0, 4) . '/' . substr($item->cthnajar, 4, 4); ?></td>
+            <td><?php echo $this->pustaka->tanggal_indo($item->dtglawallomba) . ' - ' . $this->pustaka->tanggal_indo($item->dtglakhirlomba); ?></td>
+            <td><?php echo $item->ctempatlomba; ?></td>
+            <td><?php echo $item->cfoto; ?></td>
+            <td><?php echo $item->cnmteam; ?></td>
+          </tr>
+          <?php
+        }
+        ?>
 
       </tbody>
       

@@ -93,4 +93,39 @@ class Kegiatan extends CI_Controller {
 		redirect(base_url('kegiatan'));
 	}
 
+//team ================================================================================================
+
+	function aksi_tambah_team() {
+
+		$data['cnmteam'] = $this->input->post('nama_team');
+		$data['cjmlagt'] = $this->input->post('jumlah_anggota');
+		$data['csmt'] = $this->input->post('semester');
+		$data['cthnajar'] = $this->input->post('tahun_ajar_awal') . $this->input->post('tahun_ajar_akhir');
+		$data['dtglawallomba'] = $this->input->post('tanggal_awal_lomba');
+		$data['dtglakhirlomba'] = $this->input->post('tanggal_akhir_lomba');
+		$foto_team = $_FILES['foto_team'];
+		$data['cfoto'] = 'uploads/'
+		$data['cuserentri'] = $this->input->post('userentri');
+		$data['dtglentri'] = $this->input->post('tglentri');
+		$data['cnokegiatan'] = $this->input->post('cnokegiatan');
+		$data['ctempatlomba'] = $this->input->post('tempat_lomba');
+				
+		$this->db->insert(
+			'mteammhs',
+			$data
+		);
+
+		$data['cnoteam'] = 'T' . str_pad($this->db->insert_id(),4,"0",STR_PAD_LEFT);
+		$where['ai'] = $this->db->insert_id();
+
+		$this->db->update(
+			'mteammhs',
+			$data,
+			$where
+		);
+
+		redirect(base_url('kegiatan/index/' . $data['cnokegiatan']));
+
+	}
+
 }
