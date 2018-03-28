@@ -32,7 +32,6 @@ class Team extends CI_Controller {
 		$data['dtglawallomba'] = $this->input->post('tanggal_lomba_awal');
 		$data['dtglakhirlomba'] = $this->input->post('tanggal_lomba_akhir');
 		$data['ctempatlomba'] = $this->input->post('tempat_lomba');
-		$data['cfoto'] = $this->input->post('foto');
 		$data['cuserentri'] = $this->input->post('userentri');
 		$data['dtglentri'] = $this->input->post('tglentri');
 		$data['cnokegiatan'] = $this->input->post('nokegiatan');
@@ -43,6 +42,9 @@ class Team extends CI_Controller {
 		);
 		
 		$data['cnoteam'] = 'T' . str_pad($this->db->insert_id(),4,"0",STR_PAD_LEFT);
+		$foto = $_FILES['foto'];
+		$data['cfoto'] = 'uploads/foto/' . $data['cnoteam'] . '_' . $foto['name'];
+		move_uploaded_file($foto['tmp_name'], $data['cfoto']);
 		$this->db->update($this->tabel, $data, array('ai' => $this->db->insert_id()));
 
 		redirect(base_url('team'));

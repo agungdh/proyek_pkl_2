@@ -32,7 +32,7 @@
     }
     ?>
 
-    <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>">
+    <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>" enctype="multipart/form-data">
       <div class="box-body">
 
       <div class="form-group">
