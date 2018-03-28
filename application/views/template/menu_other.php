@@ -20,3 +20,10 @@
 		<span>Kegiatan</span>
 	</a>
 </li>
+
+<li>
+	<a href="<?php echo base_url("team"); ?>">
+		<i class="fa fa-users text-aqua"></i>
+		<span>Team</span>
+	</a>
+</li>
