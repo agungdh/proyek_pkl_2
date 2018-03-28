@@ -104,7 +104,7 @@ class Kegiatan extends CI_Controller {
 		$data['dtglawallomba'] = $this->input->post('tanggal_awal_lomba');
 		$data['dtglakhirlomba'] = $this->input->post('tanggal_akhir_lomba');
 		$foto_team = $_FILES['foto_team'];
-		$data['cfoto'] = 'uploads/'
+		$data['cfoto'] = 'uploads/';
 		$data['cuserentri'] = $this->input->post('userentri');
 		$data['dtglentri'] = $this->input->post('tglentri');
 		$data['cnokegiatan'] = $this->input->post('cnokegiatan');
