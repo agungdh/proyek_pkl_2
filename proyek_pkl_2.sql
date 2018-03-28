@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 26, 2018 at 10:22 AM
+-- Generation Time: Mar 28, 2018 at 04:12 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.3
 
@@ -64,7 +64,8 @@ CREATE TABLE `mkegiatan` (
 --
 
 INSERT INTO `mkegiatan` (`cnokegiatan`, `cnmkegiatan`, `ctingkat`, `cnokategori`, `ai`) VALUES
-('014', 'voli', 'l', '001', 14);
+('015', 'voli ubl', 'n', '002', 15),
+('016', 'sepak bola', 'n', '002', 16);
 
 -- --------------------------------------------------------
 
@@ -290,13 +291,22 @@ CREATE TABLE `mteammhs` (
   `cthnajar` varchar(8) NOT NULL,
   `dtglawallomba` date NOT NULL,
   `dtglakhirlomba` date NOT NULL,
-  `cfoto` varchar(255) NOT NULL,
+  `cfoto` varchar(100) NOT NULL,
   `cuserentri` varchar(10) NOT NULL,
   `dtglentri` date NOT NULL,
   `cnokegiatan` varchar(3) NOT NULL,
   `ctempatlomba` varchar(50) NOT NULL,
   `ai` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mteammhs`
+--
+
+INSERT INTO `mteammhs` (`cnoteam`, `cnmteam`, `cjmlagt`, `csmt`, `cthnajar`, `dtglawallomba`, `dtglakhirlomba`, `cfoto`, `cuserentri`, `dtglentri`, `cnokegiatan`, `ctempatlomba`, `ai`) VALUES
+('T0001', 'satu dua', 12, 'e', '20022003', '2020-02-02', '2018-04-03', 'logo.jpg', '001', '2018-03-27', '015', 'asfas', 1),
+('T0002', 'satu dua', 12, 'e', '20022003', '2020-02-02', '2018-04-03', 'logo.jpg', '001', '2018-03-27', '015', 'asfas', 2),
+('T0003', 'tika item', 12, 'e', '20022003', '2019-02-02', '2018-01-02', 'logo.jpg', '001', '2018-03-27', '015', '124124 1rfsdvxb', 3);
 
 -- --------------------------------------------------------
 
@@ -308,8 +318,29 @@ CREATE TABLE `tagtteam` (
   `cnim` varchar(10) NOT NULL,
   `cnoteam` varchar(5) NOT NULL,
   `cprestasi` varchar(100) NOT NULL,
-  `cbukti` varchar(255) NOT NULL
+  `cbukti` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `cuserentri` varchar(3) NOT NULL,
+  `cusername` varchar(100) NOT NULL,
+  `cpassword` varchar(128) NOT NULL,
+  `cnama` varchar(100) NOT NULL,
+  `ai` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`cuserentri`, `cusername`, `cpassword`, `cnama`, `ai`) VALUES
+('001', 'admin', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', 'Administrator', 1);
 
 --
 -- Indexes for dumped tables
@@ -349,6 +380,13 @@ ALTER TABLE `tagtteam`
   ADD PRIMARY KEY (`cnim`,`cnoteam`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`cuserentri`),
+  ADD KEY `ai` (`ai`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -362,13 +400,19 @@ ALTER TABLE `mkategori`
 -- AUTO_INCREMENT for table `mkegiatan`
 --
 ALTER TABLE `mkegiatan`
-  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `mteammhs`
 --
 ALTER TABLE `mteammhs`
-  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
