@@ -49,7 +49,7 @@ class Team extends CI_Controller {
 		}
 		$this->db->update($this->tabel, $data, array('ai' => $this->db->insert_id()));
 
-		redirect(base_url('team'));
+		redirect(base_url('team/index/' . $data['cnoteam']));
 	}
 
 	function aksi_ubah() {
