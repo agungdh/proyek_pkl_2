@@ -53,18 +53,32 @@ class Team extends CI_Controller {
 	}
 
 	function aksi_ubah() {
+		$data['cnmteam'] = $this->input->post('nmteam');
+		$data['cjmlagt'] = $this->input->post('jumlah');
+		$data['csmt'] = $this->input->post('semester');
+		$data['cthnajar'] = $this->input->post('tahun_ajar_awal') . $this->input->post('tahun_ajar_akhir');
+		$data['dtglawallomba'] = $this->input->post('tanggal_lomba_awal');
+		$data['dtglakhirlomba'] = $this->input->post('tanggal_lomba_akhir');
+		$data['ctempatlomba'] = $this->input->post('tempat_lomba');
+		$data['cuserentri'] = $this->input->post('userentri');
+		$data['dtglentri'] = $this->input->post('tglentri');
+		$data['cnokegiatan'] = $this->input->post('nokegiatan');
 		$data['cnoteam'] = $this->input->post('noteam');
-		$data['cnmteam'] = $this->input->post('team');
-		$data['ctingkat'] = $this->input->post('tingkat');
-		$data['cnokategori'] = $this->input->post('nokategori');
-		$where['cnoteam'] = $data['cnoteam'];
+		$where['cnoteam'] = $this->input->post('noteam');
 		
+		$foto = $_FILES['foto'];
+		if ($foto['size'] != 0) {
+			$data['cfoto'] = 'uploads/foto/' . $data['cnoteam'] . '_' . $foto['name'];			
+			move_uploaded_file($foto['tmp_name'], $data['cfoto']);
+		}
+
 		$this->db->update(
 			$this->tabel,
 			$data,
 			$where
 		);
 
+		// echo $this->db->last_query();
 		redirect(base_url('team/index/' . $data['cnoteam']));
 	}
 
