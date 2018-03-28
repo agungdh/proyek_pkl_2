@@ -32,6 +32,7 @@
       $dtglawallomba = $data['team_id']->dtglawallomba;
       $dtglakhirlomba = $data['team_id']->dtglakhirlomba;
       $ctempatlomba = $data['team_id']->ctempatlomba;
+      $cfoto = $data['team_id']->cfoto;
     } else {
       $action = base_url('team/aksi_tambah/');
       $cnoteam = 'T' . str_pad($data['ai'],4,"0",STR_PAD_LEFT);
@@ -43,6 +44,11 @@
       $dtglawallomba = null;
       $dtglakhirlomba = null;
       $ctempatlomba = null;
+      $cfoto = null;
+    }
+
+    if ($cfoto == null) {
+      $cfoto = 'assets/noimages.svg';
     }
     ?>
 
@@ -112,6 +118,14 @@
 
       <div class="form-group">
         <label for="foto">Foto</label>
+        <br>
+        <?php
+        if ($data['team_id'] != null) {
+          ?>
+          <img src="<?php echo base_url($cfoto); ?>" width="200px" height="200px">
+          <?php
+        }
+        ?>
             <input type="file" class="form-control" id="foto" placeholder="Isi Foto" name="foto">
       </div>
 

@@ -43,8 +43,10 @@ class Team extends CI_Controller {
 		
 		$data['cnoteam'] = 'T' . str_pad($this->db->insert_id(),4,"0",STR_PAD_LEFT);
 		$foto = $_FILES['foto'];
-		$data['cfoto'] = 'uploads/foto/' . $data['cnoteam'] . '_' . $foto['name'];
-		move_uploaded_file($foto['tmp_name'], $data['cfoto']);
+		if ($foto['size'] != 0) {
+			$data['cfoto'] = 'uploads/foto/' . $data['cnoteam'] . '_' . $foto['name'];			
+			move_uploaded_file($foto['tmp_name'], $data['cfoto']);
+		}
 		$this->db->update($this->tabel, $data, array('ai' => $this->db->insert_id()));
 
 		redirect(base_url('team'));
