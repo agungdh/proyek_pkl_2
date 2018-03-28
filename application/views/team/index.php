@@ -25,10 +25,24 @@
       $action = base_url('team/aksi_ubah/');
       $cnoteam = $data['team_id']->cnoteam;
       $cnmteam = $data['team_id']->cnmteam;
+      $cnokegiatan = $data['team_id']->cnokegiatan;
+      $cjmlagt = $data['team_id']->cjmlagt;
+      $csmt = $data['team_id']->csmt;
+      $cthnajar = $data['team_id']->cthnajar;
+      $dtglawallomba = $data['team_id']->dtglawallomba;
+      $dtglakhirlomba = $data['team_id']->dtglakhirlomba;
+      $ctempatlomba = $data['team_id']->ctempatlomba;
     } else {
       $action = base_url('team/aksi_tambah/');
       $cnoteam = 'T' . str_pad($data['ai'],4,"0",STR_PAD_LEFT);
       $cnmteam = null;
+      $cnokegiatan = null;
+      $cjmlagt = null;
+      $csmt = null;
+      $cthnajar = null;
+      $dtglawallomba = null;
+      $dtglakhirlomba = null;
+      $ctempatlomba = null;
     }
     ?>
 
@@ -45,9 +59,15 @@
             <select class="form-control" name="nokegiatan">
               <?php
               foreach ($this->db->get('mkegiatan')->result() as $item) {
-                ?>
-                <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
-                <?php
+                if ($item->cnokegiatan == $cnokegiatan) {
+                   ?>
+                  <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+                  <?php
+                } else {
+                   ?>
+                  <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+                  <?php
+                }
               }
               ?>
             </select>
@@ -55,44 +75,44 @@
 
       <div class="form-group">
         <label for="nmteam">Nama Team</label>
-            <input required type="text" class="form-control" id="nmteam" placeholder="Isi Nama Team" name="nmteam">
+            <input value="<?php echo $cnmteam; ?>" required type="text" class="form-control" id="nmteam" placeholder="Isi Nama Team" name="nmteam">
       </div>
 
       <div class="form-group">
         <label for="jumlah">Jumlah Anggota</label>
-            <input required min="1" max="100" type="number" class="form-control" id="jumlah" placeholder="Isi Jumlah Anggota" name="jumlah">
+            <input value="<?php echo $cjmlagt; ?>" required min="1" max="100" type="number" class="form-control" id="jumlah" placeholder="Isi Jumlah Anggota" name="jumlah">
       </div>
 
       <div class="form-group">
         <label for="semester">Semester</label>
             <select class="form-control" name="semester">
-              <option value="o">Ganjil</option>
-              <option value="e">Genap</option>
+              <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Ganjil</option>
+              <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
             </select>
       </div>
 
       <div class="form-group">
         <label for="tahun_ajar">Tahun Ajar</label>
-            <input required type="number" min="1900" max="2900" class="" id="tahun_ajar" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
+            <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
             /
-            <input required type="number" min="1900" max="2900" class="" id="tahun_ajar" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
+            <input value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
       </div>
 
       <div class="form-group">
         <label for="tanggal_lomba">Tanggal Lomba</label>
-            <input required type="date" class="" id="tanggal_lomba" placeholder="Isi Tahun Ajar" name="tanggal_lomba_awal">
+            <input value="<?php echo $dtglawallomba; ?>" required type="date" class="" id="tanggal_lomba" placeholder="Isi Tahun Ajar" name="tanggal_lomba_awal">
             -
-            <input required type="date" class="" id="tanggal_lomba" placeholder="Isi Tahun Ajar" name="tanggal_lomba_akhir">
+            <input value="<?php echo $dtglakhirlomba; ?>" required type="date" class="" id="tanggal_lomba" placeholder="Isi Tahun Ajar" name="tanggal_lomba_akhir">
       </div>
 
       <div class="form-group">
         <label for="tempat_lomba">Tempat Lomba</label>
-            <input required type="text" class="form-control" id="tempat_lomba" placeholder="Isi Tempat Lomba" name="tempat_lomba">
+            <input value="<?php echo $ctempatlomba; ?>" required type="text" class="form-control" id="tempat_lomba" placeholder="Isi Tempat Lomba" name="tempat_lomba">
       </div>
 
       <div class="form-group">
         <label for="foto">Foto</label>
-            <input required type="file" class="form-control" id="foto" placeholder="Isi Foto" name="foto">
+            <input type="file" class="form-control" id="foto" placeholder="Isi Foto" name="foto">
       </div>
 
       <input type="hidden" name="userentri" value="<?php echo $this->session->cuserentri; ?>">
