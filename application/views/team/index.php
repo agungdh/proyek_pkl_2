@@ -168,8 +168,10 @@
     <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
       <thead>
         <tr>
-                    <th>NO team</th>
-                    <th>team</th>
+                    <th>NO Team</th>
+                    <th>Team</th>
+                    <th>Jumlah Anggota</th>
+                    <th>Semester</th>
                     <th>PROSES</th>
         </tr>
       </thead>
