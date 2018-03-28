@@ -79,7 +79,8 @@ class Team extends CI_Controller {
 		);
 
 		// echo $this->db->last_query();
-		redirect(base_url('team/index/' . $data['cnoteam']));
+		// redirect(base_url('team/index/' . $data['cnoteam']));
+		redirect(base_url('team'));
 	}
 
 	function aksi_hapus($noteam) {

@@ -80,7 +80,7 @@ class Kegiatan extends CI_Controller {
 			$where
 		);
 
-		redirect(base_url('kegiatan/index/' . $data['cnokegiatan']));
+		redirect(base_url('kegiatan'));
 	}
 
 	function aksi_hapus($nokegiatan) {
