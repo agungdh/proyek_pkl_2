@@ -168,10 +168,15 @@
     <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
       <thead>
         <tr>
-                    <th>NO Team</th>
-                    <th>Team</th>
-                    <th>Jumlah Anggota</th>
-                    <th>Semester</th>
+                    <th>NO TEAM</th>
+                    <th>KEGIATAN</th>
+                    <th>TEAM</th>
+                    <th>JUMLAH ANGGOTA</th>
+                    <th>SEMESTER</th>
+                    <th>TAHUN AJAR</th>
+                    <th>TANGGAL LOMBA</th>
+                    <th>TEMPAT LOMBA</th>
+                    <th>FOTO</th>
                     <th>PROSES</th>
         </tr>
       </thead>
@@ -182,7 +187,14 @@
           ?>
           <tr>
             <th><?php echo $item->cnoteam; ?></th>
+            <th><?php echo $this->db->get_where('mkegiatan', array('cnokegiatan' => $item->cnokegiatan))->row()->cnmkegiatan; ?></th>
             <th><?php echo $item->cnmteam; ?></th>
+            <th><?php echo $item->cjmlagt; ?></th>
+            <th><?php echo $item->csmt == 'e' ? 'Genap' : 'Ganjil'; ?></th>
+            <th><?php echo substr($item->cthnajar, 0, 4) . '/' . substr($item->cthnajar, 4, 4); ?></th>
+            <th><?php echo $this->pustaka->tanggal_indo($item->dtglawallomba) . ' - ' . $this->pustaka->tanggal_indo($item->dtglakhirlomba); ?></th>
+            <th><?php echo $item->ctempatlomba; ?></th>
+            <th><img src="<?php echo base_url($item->cfoto); ?>" width="150" height="150"></th>
               <th>
                 <a class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
                 <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnoteam; ?>')"> <i class="fa fa-trash"></i></a>
