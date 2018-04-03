@@ -3,10 +3,13 @@
 // exit();
 ?>
 <script type="text/javascript" language="javascript" >
-  var dTable;
   $(document).ready(function() {
-    dTable = $('#lookup').DataTable({
+    $('#lookup').DataTable({
       responsive: true
+    });
+    $('#lookup1').DataTable({
+      responsive: true,
+      orderCellsTop: true
     });
   });
 </script>
@@ -152,6 +155,76 @@
     </form>
     </div>
 
+    <?php
+    if ($data['team_id'] != null) {
+      ?>
+          <h4><strong><font color=blue>DATA ANGGOTA</font></strong></h4>
+
+    <table id="lookup1" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+            <th>NIM</th>
+            <th>NAMA</th>
+            <th>PRESTASI</th>
+            <th>BUKTI</th>
+            <th>PROSES</th>
+        </tr>
+        <form id="form_anggota" action="" method="post" enctype="multipart/form-data">
+        <tr>
+            <th colspan="2" style="text-align: right;">
+              <select class="form-control">
+                <?php
+                foreach ($this->db->get('mmhs')->result() as $item) {
+                  ?>
+                  <option value="<?php echo $item->cnim; ?>"><?php echo $item->cnim . ' | ' . $item->cnama; ?></option>
+                  <?php
+                }
+                ?>
+              </select>
+            </th>
+            <th>
+              <input type="text" name="" class="form-control">
+            </th>
+            <th>
+              <input type="file" name="" class="form-control">
+            </th>
+            <th>
+              <a class="btn btn-danger" onclick="$('#form_anggota').submit()"> <i class="fa fa-trash"></i></a>
+            </th>
+        </tr>
+        </form>
+      </thead>
+
+      <tbody>
+        <?php
+        $where['cnoteam'] = $cnoteam;
+        $this->db->where($where);
+        foreach ($this->db->get('tagtteam')->result() as $item) {
+          ?>
+          <tr>
+            <th><?php echo $item->cnim; ?></th>
+            <th><?php echo $this->db->get_where('mmhs', array('cnim' => $item->cnim))->row()->cnama; ?></th>
+            <th><?php echo $item->cprestasi; ?></th>
+            <th><img src="<?php echo base_url($item->cbukti); ?>" width="150" height="150"></th>
+              <th>
+                <a class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
+                <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnoteam; ?>')"> <i class="fa fa-trash"></i></a>
+              </th>
+          </tr>
+          <?php
+        }
+        ?>
+      </tbody>
+      
+    </table>
+    
+    <br><br>
+      <?php
+    }
+    ?>
+
+    <h4><strong><font color=blue>DATA TEAM</font></strong></h4>
+    
     <form method="get" action="<?php echo base_url('team'); ?>">
       Kegiatan:
       <select name="cnoteam">
@@ -165,7 +238,9 @@
       </select>
       <input type="submit" value="Filter">
     </form>
-    <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+    
+
+      <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
       <thead>
         <tr>
                     <th>NO TEAM</th>
