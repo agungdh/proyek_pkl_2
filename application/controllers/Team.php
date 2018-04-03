@@ -9,6 +9,23 @@ class Team extends CI_Controller {
 		$this->tabel = "mteammhs";
 	}
 
+	function aksi_tambah_anggota() {
+		foreach ($this->input->post('data') as $key => $value) {
+			$data[$key] = $value;
+		}
+		
+		$bukti = $_FILES['cbukti'];
+		if ($bukti['size'] != 0) {
+			$data['cbukti'] = 'uploads/bukti/' . $data['cnoteam'] . '_' . $data['cnim'] . '_' . $bukti['name'];			
+		}
+
+		if ($this->db->insert('tagtteam', $data)) {
+			move_uploaded_file($bukti['tmp_name'], $data['cbukti']);
+		}
+
+		redirect(base_url('team/index/' . $data['cnoteam']));
+	}
+
 	function index($cnoteam = null) {
 		$data['isi'] = "team/index";
 		$data['data']['team'] = $this->db->get($this->tabel)->result();

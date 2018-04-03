@@ -7,10 +7,10 @@
     $('#lookup').DataTable({
       responsive: true
     });
-    $('#lookup1').DataTable({
-      responsive: true,
-      orderCellsTop: true
-    });
+    // $('#lookup1').DataTable({
+    //   responsive: true,
+    //   orderCellsTop: true
+    // });
   });
 </script>
 
@@ -92,7 +92,7 @@
             <input value="<?php echo $cjmlagt; ?>" required min="1" max="100" type="number" class="form-control" id="jumlah" placeholder="Isi Jumlah Anggota" name="jumlah">
       </div>
 
-      <div class="form-group">
+       <div class="form-group">
         <label for="semester">Semester</label>
             <select class="form-control" name="semester">
               <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Ganjil</option>
@@ -169,12 +169,22 @@
             <th>BUKTI</th>
             <th>PROSES</th>
         </tr>
-        <form id="form_anggota" action="" method="post" enctype="multipart/form-data">
+        <form id="form_anggota" action="<?php echo base_url('team/aksi_tambah_anggota'); ?>" method="post" enctype="multipart/form-data">
         <tr>
+            <input type="hidden" name="data[cnoteam]" value="<?php echo $cnoteam; ?>">
             <th colspan="2" style="text-align: right;">
-              <select class="form-control">
+              <select class="form-control" name="data[cnim]">
                 <?php
-                foreach ($this->db->get('mmhs')->result() as $item) {
+                $sql = "SELECT *
+                        FROM mmhs
+                        WHERE cnim NOT IN
+                        (
+                            SELECT cnim
+                            FROM tagtteam
+                            WHERE cnoteam = ?
+                        )";
+                $query = $this->db->query($sql, array($cnoteam))->result();
+                foreach ($query as $item) {
                   ?>
                   <option value="<?php echo $item->cnim; ?>"><?php echo $item->cnim . ' | ' . $item->cnama; ?></option>
                   <?php
@@ -183,13 +193,13 @@
               </select>
             </th>
             <th>
-              <input type="text" name="" class="form-control">
+              <input type="text" name="data[cprestasi]" class="form-control">
             </th>
             <th>
-              <input type="file" name="" class="form-control">
+              <input type="file" name="cbukti" class="form-control">
             </th>
             <th>
-              <a class="btn btn-danger" onclick="$('#form_anggota').submit()"> <i class="fa fa-trash"></i></a>
+              <a class="btn btn-success" onclick="$('#form_anggota').submit()"> <i class="fa fa-check"></i></a>
             </th>
         </tr>
         </form>
