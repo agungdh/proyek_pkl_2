@@ -218,7 +218,7 @@
             <th><img src="<?php echo base_url($item->cbukti); ?>" width="150" height="150"></th>
               <th>
                 <a class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
-                <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnoteam; ?>')"> <i class="fa fa-trash"></i></a>
+                <a class="btn btn-danger" onclick="hapus_anggota('<?php echo $item->cnoteam; ?>', '<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
               </th>
           </tr>
           <?php
@@ -298,6 +298,11 @@
 function hapus(id) {
   if (confirm("Yakin hapus ?")) {
     window.location = "<?php echo base_url('team/aksi_hapus/'); ?>" + id;
+  }
+}
+function hapus(noteam, nim) {
+  if (confirm("Yakin hapus ?")) {
+    window.location = "<?php echo base_url('team/aksi_hapus_anggota/'); ?>" + noteam + '/' + nim;
   }
 }
 </script>
