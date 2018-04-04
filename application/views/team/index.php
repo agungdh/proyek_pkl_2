@@ -211,16 +211,25 @@
         $this->db->where($where);
         foreach ($this->db->get('tagtteam')->result() as $item) {
           ?>
-          <tr>
-            <th><?php echo $item->cnim; ?></th>
-            <th><?php echo $this->db->get_where('mmhs', array('cnim' => $item->cnim))->row()->cnama; ?></th>
-            <th><?php echo $item->cprestasi; ?></th>
-            <th><img src="<?php echo base_url($item->cbukti); ?>" width="150" height="150"></th>
+          <form id="form_anggota_ubah_<?php echo $cnoteam . $item->cnim; ?>" action="<?php echo base_url('team/aksi_ubah_anggota'); ?>" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="nim" value="<?php echo $item->cnim; ?>">
+            <input type="hidden" name="noteam" value="<?php echo $cnoteam; ?>">
+            <tr>
+              <th><?php echo $item->cnim; ?></th>
+              <th><?php echo $this->db->get_where('mmhs', array('cnim' => $item->cnim))->row()->cnama; ?></th>
               <th>
-                <a class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
-                <a class="btn btn-danger" onclick="hapus_anggota('<?php echo $item->cnoteam; ?>', '<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
+                <input type="text" name="prestasi" value="<?php echo $item->cprestasi; ?> ">
               </th>
-          </tr>
+              <th>
+                <img src="<?php echo base_url($item->cbukti); ?>" width="150" height="150">
+                <input type="file" name="bukti">
+              </th>
+                <th>
+                  <a class="btn btn-info" onclick="$('#form_anggota_ubah_<?php echo $cnoteam . $item->cnim; ?>').submit()"> <i class="fa fa-pencil"></i></a>
+                  <a class="btn btn-danger" onclick="hapus_anggota('<?php echo $item->cnoteam; ?>', '<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
+                </th>
+            </tr>
+          </form>
           <?php
         }
         ?>
@@ -237,12 +246,19 @@
     
     <form method="get" action="<?php echo base_url('team'); ?>">
       Kegiatan:
-      <select name="cnoteam">
+      <select name="cnokegiatan">
+        <option value="null">Semua</option>  
         <?php
         foreach ($this->db->get('mkegiatan')->result() as $item) {
-          ?>
-          <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
-          <?php
+          if ($item->cnokegiatan == $this->input->get('cnokegiatan')) {
+            ?>
+            <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+            <?php
+          } else {
+            ?>
+            <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+            <?php
+          }
         }
         ?>
       </select>
@@ -300,7 +316,7 @@ function hapus(id) {
     window.location = "<?php echo base_url('team/aksi_hapus/'); ?>" + id;
   }
 }
-function hapus(noteam, nim) {
+function hapus_anggota(noteam, nim) {
   if (confirm("Yakin hapus ?")) {
     window.location = "<?php echo base_url('team/aksi_hapus_anggota/'); ?>" + noteam + '/' + nim;
   }

@@ -28,6 +28,11 @@ class Team extends CI_Controller {
 
 	function index($cnoteam = null) {
 		$data['isi'] = "team/index";
+		if ($this->input->get('cnokegiatan') == null || $this->input->get('cnokegiatan') == "null" || $this->input->get('cnokegiatan') == "") {
+			
+		} else {
+			$this->db->where('cnokegiatan', $this->input->get('cnokegiatan'));
+		}
 		$data['data']['team'] = $this->db->get($this->tabel)->result();
 		$data['data']['ai'] = $this->m_universal->ai($this->tabel);
 		$data['data']['team_id'] = $this->db->get_where($this->tabel, array('cnoteam' => $cnoteam))->row();
@@ -108,6 +113,31 @@ class Team extends CI_Controller {
 		);
 
 		redirect(base_url('team'));
+	}
+
+	function aksi_hapus_anggota($noteam, $nim) {
+		$where['cnoteam'] = $noteam;
+		$where['cnim'] = $nim;
+		$this->db->delete(
+			'tagtteam',
+			$where
+		);
+
+		redirect(base_url('team/index/' . $noteam));
+	}
+
+	function aksi_ubah_anggota() {
+		$noteam = $this->input->post('noteam');
+		$nim = $this->input->post('nim');
+		$data['cprestasi'] = $this->input->post('prestasi');
+		$data['cbukti'] = 'uploads/bukti/' . $noteam . '_' . $nim . '_' . $_FILES['bukti']['name'];
+		$where['cnoteam'] = $noteam;
+		$where['cnim'] = $nim;
+		$this->db->update('tagtteam', $data, $where);
+		
+		move_uploaded_file($_FILES['bukti']['tmp_name'], $data['cbukti']);
+
+		redirect(base_url('team/index/' . $noteam));
 	}
 
 }
