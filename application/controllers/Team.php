@@ -28,6 +28,11 @@ class Team extends CI_Controller {
 
 	function index($cnoteam = null) {
 		$data['isi'] = "team/index";
+		if ($this->input->get('cnokegiatan') == null || $this->input->get('cnokegiatan') == "null" || $this->input->get('cnokegiatan') == "") {
+			
+		} else {
+			$this->db->where('cnokegiatan', $this->input->get('cnokegiatan'));
+		}
 		$data['data']['team'] = $this->db->get($this->tabel)->result();
 		$data['data']['ai'] = $this->m_universal->ai($this->tabel);
 		$data['data']['team_id'] = $this->db->get_where($this->tabel, array('cnoteam' => $cnoteam))->row();

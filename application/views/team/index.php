@@ -246,12 +246,19 @@
     
     <form method="get" action="<?php echo base_url('team'); ?>">
       Kegiatan:
-      <select name="cnoteam">
+      <select name="cnokegiatan">
+        <option value="null">Semua</option>  
         <?php
         foreach ($this->db->get('mkegiatan')->result() as $item) {
-          ?>
-          <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
-          <?php
+          if ($item->cnokegiatan == $this->input->get('cnokegiatan')) {
+            ?>
+            <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+            <?php
+          } else {
+            ?>
+            <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+            <?php
+          }
         }
         ?>
       </select>
