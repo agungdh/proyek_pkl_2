@@ -46,3 +46,9 @@
 
     <script type="text/javascript" language="javascript" src="<?php echo base_url() . "assets/"; ?>dist/js/alertmodal.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url() . "assets/"; ?>dist/js/jquery.inputmask.bundle.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+          $('.select2').select2()
+        });
+    </script>

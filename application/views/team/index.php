@@ -65,7 +65,7 @@
 
       <div class="form-group">
         <label for="kegiatan">Kegiatan</label>
-            <select class="form-control" name="nokegiatan">
+            <select class="form-control select2" name="nokegiatan">
               <?php
               foreach ($this->db->get('mkegiatan')->result() as $item) {
                 if ($item->cnokegiatan == $cnokegiatan) {
@@ -94,7 +94,7 @@
 
        <div class="form-group">
         <label for="semester">Semester</label>
-            <select class="form-control" name="semester">
+            <select class="form-control select2" name="semester">
               <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Ganjil</option>
               <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
             </select>
@@ -172,8 +172,8 @@
         <form id="form_anggota" action="<?php echo base_url('team/aksi_tambah_anggota'); ?>" method="post" enctype="multipart/form-data">
         <tr>
             <input type="hidden" name="data[cnoteam]" value="<?php echo $cnoteam; ?>">
-            <th colspan="2" style="text-align: right;">
-              <select class="form-control" name="data[cnim]">
+            <th colspan="2" style="text-align: center;">
+              <select class="form-control select2" name="data[cnim]">
                 <?php
                 $sql = "SELECT *
                         FROM mmhs
@@ -246,7 +246,7 @@
     
     <form method="get" action="<?php echo base_url('team'); ?>">
       Kegiatan:
-      <select name="cnokegiatan">
+      <select class="select2" name="cnokegiatan">
         <option value="null">Semua</option>  
         <?php
         foreach ($this->db->get('mkegiatan')->result() as $item) {
