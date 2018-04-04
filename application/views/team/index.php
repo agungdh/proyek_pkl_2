@@ -300,7 +300,7 @@ function hapus(id) {
     window.location = "<?php echo base_url('team/aksi_hapus/'); ?>" + id;
   }
 }
-function hapus(noteam, nim) {
+function hapus_anggota(noteam, nim) {
   if (confirm("Yakin hapus ?")) {
     window.location = "<?php echo base_url('team/aksi_hapus_anggota/'); ?>" + noteam + '/' + nim;
   }

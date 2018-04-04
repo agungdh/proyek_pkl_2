@@ -110,4 +110,15 @@ class Team extends CI_Controller {
 		redirect(base_url('team'));
 	}
 
+	function aksi_hapus_anggota($noteam, $nim) {
+		$where['cnoteam'] = $noteam;
+		$where['cnim'] = $nim;
+		$this->db->delete(
+			'tagtteam',
+			$where
+		);
+
+		redirect(base_url('team/index/' . $noteam));
+	}
+
 }
