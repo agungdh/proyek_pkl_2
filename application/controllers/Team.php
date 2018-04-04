@@ -121,4 +121,18 @@ class Team extends CI_Controller {
 		redirect(base_url('team/index/' . $noteam));
 	}
 
+	function aksi_ubah_anggota() {
+		$noteam = $this->input->post('noteam');
+		$nim = $this->input->post('nim');
+		$data['cprestasi'] = $this->input->post('prestasi');
+		$data['cbukti'] = 'uploads/bukti/' . $noteam . '_' . $nim . '_' . $_FILES['bukti']['name'];
+		$where['cnoteam'] = $noteam;
+		$where['cnim'] = $nim;
+		$this->db->update('tagtteam', $data, $where);
+		
+		move_uploaded_file($_FILES['bukti']['tmp_name'], $data['cbukti']);
+
+		redirect(base_url('team/index/' . $noteam));
+	}
+
 }
