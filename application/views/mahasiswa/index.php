@@ -84,8 +84,8 @@
             <th><?php echo $item->cnim; ?></th>
             <th><?php echo $item->cnama; ?></th>
               <th>
-                <a class="btn btn-info" href="<?php echo base_url('mahasiswa/index/'.$item->cnim) ?>"> <i class="fa fa-pencil"></i></a>
-                <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Edit!" class="btn btn-info" href="<?php echo base_url('mahasiswa/index/'.$item->cnim) ?>"> <i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Hapus!" class="btn btn-danger" onclick="hapus('<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
               </th>
           </tr>
           <?php

@@ -83,8 +83,8 @@
             <th><?php echo $item->cnokategori; ?></th>
             <th><?php echo $item->cnmkategori; ?></th>
               <th>
-                <a class="btn btn-info" href="<?php echo base_url('kategori/index/'.$item->cnokategori) ?>"> <i class="fa fa-pencil"></i></a>
-                <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnokategori; ?>')"> <i class="fa fa-trash"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Edit!" class="btn btn-info" href="<?php echo base_url('kategori/index/'.$item->cnokategori) ?>"> <i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Hapus!" class="btn btn-danger" onclick="hapus('<?php echo $item->cnokategori; ?>')"> <i class="fa fa-trash"></i></a>
               </th>
           </tr>
           <?php
