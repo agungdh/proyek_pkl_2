@@ -38,47 +38,59 @@
 
     <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>">
     <div class="box-body">
+      <div class="col col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+             <div class="form-group">
+                <label for="nokegiatan">NO Kegiatan</label>
+                    <input readonly value="<?php echo $cnokegiatan; ?>" required type="text" class="form-control" id="nokegiatan" placeholder="Isi NO Kegiatan" name="nokegiatan">
+              </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="kegiatan">Kegiatan</label>
+                  <input required value="<?php echo $cnmkegiatan; ?>" type="text" class="form-control" id="kegiatan" placeholder="Isi Kegiatan" name="kegiatan">
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <label for="nokegiatan">NO Kegiatan</label>
-          <input readonly value="<?php echo $cnokegiatan; ?>" required type="text" class="form-control" id="nokegiatan" placeholder="Isi NO Kegiatan" name="nokegiatan">
-    </div>
-
-    <div class="form-group">
-      <label for="kegiatan">Kegiatan</label>
-          <input required value="<?php echo $cnmkegiatan; ?>" type="text" class="form-control" id="kegiatan" placeholder="Isi Kegiatan" name="kegiatan">
-    </div>
-
-    <div class="form-group">
-      <label for="tingkat">Tingkat</label>
-          <select class="form-control select2" id="tingkat" name="tingkat">
-            <option value="">Pilih</option>
-            <option <?php echo $ctingkat == 'l' ? 'selected' : null; ?> value="l">Lokal</option>
-            <option <?php echo $ctingkat == 'n' ? 'selected' : null; ?> value="n">Nasional</option>
-            <option <?php echo $ctingkat == 'i' ? 'selected' : null; ?> value="i">Internasional</option>
-          </select>
-    </div>
-
-    <div class="form-group">
-      <label for="nokategori">Kategori</label>
-          <select class="form-control select2" id="nokategori" name="nokategori">
-            <option value="">Pilih</option>
-            <?php
-            foreach ($this->db->get('mkategori')->result() as $item) {
-              if ($item->cnokategori == $cnokategori) {
-                ?>
-                <option selected value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
-                <?php
-              } else {
-                ?>
-                <option value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
-                <?php
-              }
-            }
-            ?>
-          </select>
-    </div>
-
+      <div class="col col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="tingkat">Tingkat</label>
+                  <select class="form-control select2" id="tingkat" name="tingkat">
+                    <option value="">Pilih</option>
+                    <option <?php echo $ctingkat == 'l' ? 'selected' : null; ?> value="l">Lokal</option>
+                    <option <?php echo $ctingkat == 'n' ? 'selected' : null; ?> value="n">Nasional</option>
+                    <option <?php echo $ctingkat == 'i' ? 'selected' : null; ?> value="i">Internasional</option>
+                  </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nokategori">Kategori</label>
+                  <select class="form-control select2" id="nokategori" name="nokategori">
+                    <option value="">Pilih</option>
+                    <?php
+                    foreach ($this->db->get('mkategori')->result() as $item) {
+                      if ($item->cnokategori == $cnokategori) {
+                        ?>
+                        <option selected value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
+                        <?php
+                      } else {
+                        ?>
+                        <option value="<?php echo $item->cnokategori; ?>"><?php echo $item->cnmkategori; ?></option>
+                        <?php
+                      }
+                    }
+                    ?>
+                  </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div><!-- /.box-body -->
 
     <div class="box-footer">

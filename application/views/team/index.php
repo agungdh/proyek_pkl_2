@@ -53,88 +53,115 @@
 
     <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>" enctype="multipart/form-data">
       <div class="box-body">
+        <div class="row">
+          <div class="col col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="noteam">NO Team</label>
+                    <input readonly value="<?php echo $cnoteam; ?>" required type="text" class="form-control" id="noteam" placeholder="Isi NO Team" name="noteam">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="kegiatan">Kegiatan</label>
+                  <select class="form-control select2" id="nokegiatan" name="nokegiatan">
+                    <option value="">Pilih</option>
+                    <?php
+                    foreach ($this->db->get('mkegiatan')->result() as $item) {
+                      if ($item->cnokegiatan == $cnokegiatan) {
+                         ?>
+                        <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+                        <?php
+                      } else {
+                         ?>
+                        <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+                        <?php
+                      }
+                    }
+                    ?>
+                  </select>
+                </div>
+             </div>
+            </div>
+          </div>
+          <div class="col col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nmteam">Nama Team</label>
+                  <input value="<?php echo $cnmteam; ?>" required type="text" class="form-control" id="nmteam" placeholder="Isi Nama Team" name="nmteam">
+                </div>
+              </div>
 
-      <div class="form-group">
-        <label for="noteam">NO Team</label>
-            <input readonly value="<?php echo $cnoteam; ?>" required type="text" class="form-control" id="noteam" placeholder="Isi NO Team" name="noteam">
-      </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jumlah">Jumlah Anggota</label>
+                      <input value="<?php echo $cjmlagt; ?>" required min="1" max="100" type="number" class="form-control" id="jumlah" placeholder="Isi Jumlah Anggota" name="jumlah">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="semester">Semester</label>
+                    <select class="form-control select2" id="semester" name="semester">
+                      <option value="">Pilih</option>
+                      <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Gasal</option>
+                      <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tahun_ajar">Tahun Ajar</label><br>
+                    <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_awal" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
+                    /
+                    <input value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <div class="col col-md-12">
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="tempat_lomba">Tempat Lomba</label>
+                      <input value="<?php echo $ctempatlomba; ?>" required type="text" class="form-control" id="tempat_lomba" placeholder="Isi Tempat Lomba" name="tempat_lomba">
+                    </div>
+                  </div>
 
-      <div class="form-group">
-        <label for="kegiatan">Kegiatan</label>
-            <select class="form-control select2" id="nokegiatan" name="nokegiatan">
-              <option value="">Pilih</option>
-              <?php
-              foreach ($this->db->get('mkegiatan')->result() as $item) {
-                if ($item->cnokegiatan == $cnokegiatan) {
-                   ?>
-                  <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
-                  <?php
-                } else {
-                   ?>
-                  <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
-                  <?php
-                }
-              }
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tanggal_lomba">Tanggal Lomba</label><br>
+                      <input value="<?php echo $dtglawallomba; ?>" required type="date" class="" id="tanggal_lomba_awal" placeholder="Isi Tahun Ajar" name="tanggal_lomba_awal">
+                      -
+                      <input value="<?php echo $dtglakhirlomba; ?>" required type="date" class="" id="tanggal_lomba_akhir" placeholder="Isi Tahun Ajar" name="tanggal_lomba_akhir">
+                </div>
+              </div>
+              </div>
+          </div>
+        <div class="form-group col-md-6">
+            <label for="foto">Foto</label>
+            <br>
+            <?php
+            if ($data['team_id'] != null) {
+              if (file_exists($cfoto)) {
               ?>
-            </select>
-      </div>
-
-      <div class="form-group">
-        <label for="nmteam">Nama Team</label>
-            <input value="<?php echo $cnmteam; ?>" required type="text" class="form-control" id="nmteam" placeholder="Isi Nama Team" name="nmteam">
-      </div>
-
-      <div class="form-group">
-        <label for="jumlah">Jumlah Anggota</label>
-            <input value="<?php echo $cjmlagt; ?>" required min="1" max="100" type="number" class="form-control" id="jumlah" placeholder="Isi Jumlah Anggota" name="jumlah">
-      </div>
-
-       <div class="form-group">
-        <label for="semester">Semester</label>
-            <select class="form-control select2" id="semester" name="semester">
-              <option value="">Pilih</option>
-              <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Gasal</option>
-              <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
-            </select>
-      </div>
-
-      <div class="form-group">
-        <label for="tahun_ajar">Tahun Ajar</label>
-            <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_awal" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
-            /
-            <input value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
-      </div>
-
-      <div class="form-group">
-        <label for="tanggal_lomba">Tanggal Lomba</label>
-            <input value="<?php echo $dtglawallomba; ?>" required type="date" class="" id="tanggal_lomba_awal" placeholder="Isi Tahun Ajar" name="tanggal_lomba_awal">
-            -
-            <input value="<?php echo $dtglakhirlomba; ?>" required type="date" class="" id="tanggal_lomba_akhir" placeholder="Isi Tahun Ajar" name="tanggal_lomba_akhir">
-      </div>
-
-      <div class="form-group">
-        <label for="tempat_lomba">Tempat Lomba</label>
-            <input value="<?php echo $ctempatlomba; ?>" required type="text" class="form-control" id="tempat_lomba" placeholder="Isi Tempat Lomba" name="tempat_lomba">
-      </div>
-
-      <div class="form-group">
-        <label for="foto">Foto</label>
-        <br>
-        <?php
-        if ($data['team_id'] != null) {
-          if (file_exists($cfoto)) {
-          ?>
-          <img src="<?php echo base_url($cfoto); ?>" width="200px" height="200px">
-          <?php            
-          }
-        }
-        ?>
+              <img src="<?php echo base_url($cfoto); ?>" width="200px" height="200px">
+              <?php            
+              }
+            }
+            ?>
             <input type="file" class="form-control" id="foto" placeholder="Isi Foto" name="foto">
       </div>
 
       <input type="hidden" name="userentri" value="<?php echo $this->session->cuserentri; ?>">
       <input type="hidden" name="tglentri" value="<?php echo date('Y-m-d'); ?>">
-
+        </div>
       </div><!-- /.box-body -->
 
       <div class="box-footer">
@@ -279,9 +306,9 @@
         }
         ?>
       </select>
-      <input type="submit" value="Filter">
+      <input type="submit" class="btn btn-default" value="Filter">
     </form>
-    
+    <br/>
 
       <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
       <thead>
