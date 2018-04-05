@@ -130,12 +130,16 @@ class Team extends CI_Controller {
 		$noteam = $this->input->post('noteam');
 		$nim = $this->input->post('nim');
 		$data['cprestasi'] = $this->input->post('prestasi');
-		$data['cbukti'] = 'uploads/bukti/' . $noteam . '_' . $nim . '_' . $_FILES['bukti']['name'];
+
+		if ($_FILES['bukti']['size'] != 0) {
+			$data['cbukti'] = 'uploads/bukti/' . $noteam . '_' . $nim . '_' . $_FILES['bukti']['name'];
+			move_uploaded_file($_FILES['bukti']['tmp_name'], $data['cbukti']);
+		}
+		
 		$where['cnoteam'] = $noteam;
 		$where['cnim'] = $nim;
 		$this->db->update('tagtteam', $data, $where);
 		
-		move_uploaded_file($_FILES['bukti']['tmp_name'], $data['cbukti']);
 
 		redirect(base_url('team/index/' . $noteam));
 	}
