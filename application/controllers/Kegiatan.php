@@ -53,7 +53,7 @@ class Kegiatan extends CI_Controller {
 		$data['cnokegiatan'] = str_pad($this->db->insert_id(),3,"0",STR_PAD_LEFT);
 		$this->db->update($this->tabel, $data, array('ai' => $this->db->insert_id()));
 
-		redirect(base_url('kegiatan/index/' . $data['cnokegiatan']));
+		redirect(base_url('kegiatan'));
 	}
 
 	function ubah($nokegiatan) {

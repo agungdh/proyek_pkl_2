@@ -49,10 +49,6 @@
       $ctempatlomba = null;
       $cfoto = null;
     }
-
-    if ($cfoto == null) {
-      $cfoto = 'assets/noimages.svg';
-    }
     ?>
 
     <form name="form" id="form" role="form" method="post" action="<?php echo $action; ?>" enctype="multipart/form-data">
@@ -65,7 +61,8 @@
 
       <div class="form-group">
         <label for="kegiatan">Kegiatan</label>
-            <select class="form-control select2" name="nokegiatan">
+            <select class="form-control select2" id="nokegiatan" name="nokegiatan">
+              <option value="">Pilih</option>
               <?php
               foreach ($this->db->get('mkegiatan')->result() as $item) {
                 if ($item->cnokegiatan == $cnokegiatan) {
@@ -94,24 +91,25 @@
 
        <div class="form-group">
         <label for="semester">Semester</label>
-            <select class="form-control select2" name="semester">
-              <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Ganjil</option>
+            <select class="form-control select2" id="semester" name="semester">
+              <option value="">Pilih</option>
+              <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Gasal</option>
               <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
             </select>
       </div>
 
       <div class="form-group">
         <label for="tahun_ajar">Tahun Ajar</label>
-            <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
+            <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_awal" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
             /
-            <input value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
+            <input value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
       </div>
 
       <div class="form-group">
         <label for="tanggal_lomba">Tanggal Lomba</label>
-            <input value="<?php echo $dtglawallomba; ?>" required type="date" class="" id="tanggal_lomba" placeholder="Isi Tahun Ajar" name="tanggal_lomba_awal">
+            <input value="<?php echo $dtglawallomba; ?>" required type="date" class="" id="tanggal_lomba_awal" placeholder="Isi Tahun Ajar" name="tanggal_lomba_awal">
             -
-            <input value="<?php echo $dtglakhirlomba; ?>" required type="date" class="" id="tanggal_lomba" placeholder="Isi Tahun Ajar" name="tanggal_lomba_akhir">
+            <input value="<?php echo $dtglakhirlomba; ?>" required type="date" class="" id="tanggal_lomba_akhir" placeholder="Isi Tahun Ajar" name="tanggal_lomba_akhir">
       </div>
 
       <div class="form-group">
@@ -124,9 +122,11 @@
         <br>
         <?php
         if ($data['team_id'] != null) {
+          if (file_exists($cfoto)) {
           ?>
           <img src="<?php echo base_url($cfoto); ?>" width="200px" height="200px">
-          <?php
+          <?php            
+          }
         }
         ?>
             <input type="file" class="form-control" id="foto" placeholder="Isi Foto" name="foto">
@@ -221,7 +221,13 @@
                 <input type="text" name="prestasi" value="<?php echo $item->cprestasi; ?> ">
               </th>
               <th>
-                <img src="<?php echo base_url($item->cbukti); ?>" width="150" height="150">
+                <?php
+                if (file_exists($item->cbukti)) {
+                  ?>
+                  <img src="<?php echo base_url($item->cbukti); ?>" width="150" height="150">
+                  <?php
+                }
+                ?>
                 <input type="file" name="bukti">
               </th>
                 <th>
@@ -291,11 +297,19 @@
             <th><?php echo $this->db->get_where('mkegiatan', array('cnokegiatan' => $item->cnokegiatan))->row()->cnmkegiatan; ?></th>
             <th><?php echo $item->cnmteam; ?></th>
             <th><?php echo $item->cjmlagt; ?></th>
-            <th><?php echo $item->csmt == 'e' ? 'Genap' : 'Ganjil'; ?></th>
+            <th><?php echo $item->csmt == 'e' ? 'Genap' : 'Gasal'; ?></th>
             <th><?php echo substr($item->cthnajar, 0, 4) . '/' . substr($item->cthnajar, 4, 4); ?></th>
             <th><?php echo $this->pustaka->tanggal_indo($item->dtglawallomba) . ' - ' . $this->pustaka->tanggal_indo($item->dtglakhirlomba); ?></th>
             <th><?php echo $item->ctempatlomba; ?></th>
-            <th><img src="<?php echo base_url($item->cfoto); ?>" width="150" height="150"></th>
+            <th>
+              <?php
+              if (file_exists($item->cfoto)) {
+                ?>
+                <img src="<?php echo base_url($item->cfoto); ?>" width="150" height="150">
+                <?php
+              }
+              ?>
+            </th>
               <th>
                 <a class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
                 <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnoteam; ?>')"> <i class="fa fa-trash"></i></a>
@@ -311,6 +325,12 @@
 </div><!-- /.box -->
 
 <script type="text/javascript">
+$('form').submit(function () {
+  if ($('#nokegiatan').val() == '' || $('#semester').val() == '') {
+      alert('Belum pilih');
+      return false;
+  }
+});
 function hapus(id) {
   if (confirm("Yakin hapus ?")) {
     window.location = "<?php echo base_url('team/aksi_hapus/'); ?>" + id;
@@ -321,4 +341,13 @@ function hapus_anggota(noteam, nim) {
     window.location = "<?php echo base_url('team/aksi_hapus_anggota/'); ?>" + noteam + '/' + nim;
   }
 }
+$('#tahun_ajar_awal').change(function() {
+  $('#tahun_ajar_akhir').val(parseInt($('#tahun_ajar_awal').val()) + 1);
+});
+$('#tahun_ajar_akhir').change(function() {
+  $('#tahun_ajar_awal').val(parseInt($('#tahun_ajar_akhir').val()) - 1);
+});
+$('#tanggal_lomba_awal').change(function() {
+  $('#tanggal_lomba_akhir').val($('#tanggal_lomba_awal').val());
+});
 </script>

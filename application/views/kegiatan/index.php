@@ -51,7 +51,8 @@
 
     <div class="form-group">
       <label for="tingkat">Tingkat</label>
-          <select class="form-control select2" name="tingkat">
+          <select class="form-control select2" id="tingkat" name="tingkat">
+            <option value="">Pilih</option>
             <option <?php echo $ctingkat == 'l' ? 'selected' : null; ?> value="l">Lokal</option>
             <option <?php echo $ctingkat == 'n' ? 'selected' : null; ?> value="n">Nasional</option>
             <option <?php echo $ctingkat == 'i' ? 'selected' : null; ?> value="i">Internasional</option>
@@ -60,7 +61,8 @@
 
     <div class="form-group">
       <label for="nokategori">Kategori</label>
-          <select class="form-control select2" name="nokategori">
+          <select class="form-control select2" id="nokategori" name="nokategori">
+            <option value="">Pilih</option>
             <?php
             foreach ($this->db->get('mkategori')->result() as $item) {
               if ($item->cnokategori == $cnokategori) {
@@ -154,4 +156,11 @@ function hapus(id) {
     window.location = "<?php echo base_url('kegiatan/aksi_hapus/'); ?>" + id;
   }
 }
+
+$('form').submit(function () {
+  if ($('#nokategori').val() == '' || $('#tingkat').val() == '') {
+      alert('Belum pilih');
+      return false;
+  }
+});
 </script>
