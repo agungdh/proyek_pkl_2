@@ -210,7 +210,7 @@
               <input <?php echo $attribTambahan; ?> type="file" name="cbukti" class="form-control">
             </th>
             <th>
-              <a <?php echo $attribTambahan; ?> class="btn btn-success" onclick="<?php echo $attribOnClick; ?>"> <i class="fa fa-check"></i></a>
+              <a data-toggle="tooltip" data-placement="top" title="Tambah!" <?php echo $attribTambahan; ?> class="btn btn-success" onclick="<?php echo $attribOnClick; ?>"> <i class="fa fa-plus">Add</i></a>
             </th>
         </tr>
         </form>
@@ -242,8 +242,8 @@
                 <input type="file" name="bukti">
               </th>
                 <th>
-                  <a class="btn btn-info" onclick="$('#form_anggota_ubah_<?php echo $cnoteam . $item->cnim; ?>').submit()"> <i class="fa fa-pencil"></i></a>
-                  <a class="btn btn-danger" onclick="hapus_anggota('<?php echo $item->cnoteam; ?>', '<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
+                  <a data-toggle="tooltip" data-placement="top" title="Edit!" class="btn btn-info" onclick="$('#form_anggota_ubah_<?php echo $cnoteam . $item->cnim; ?>').submit()"> <i class="fa fa-pencil"></i></a>
+                  <a data-toggle="tooltip" data-placement="top" title="Hapus!" class="btn btn-danger" onclick="hapus_anggota('<?php echo $item->cnoteam; ?>', '<?php echo $item->cnim; ?>')"> <i class="fa fa-trash"></i></a>
                 </th>
             </tr>
           </form>
@@ -322,8 +322,8 @@
               ?>
             </th>
               <th>
-                <a class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
-                <a class="btn btn-danger" onclick="hapus('<?php echo $item->cnoteam; ?>')"> <i class="fa fa-trash"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Edit!" class="btn btn-info" href="<?php echo base_url('team/index/'.$item->cnoteam) ?>"> <i class="fa fa-pencil"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Hapus!" class="btn btn-danger" onclick="hapus('<?php echo $item->cnoteam; ?>')"> <i class="fa fa-trash"></i></a>
               </th>
           </tr>
           <?php
