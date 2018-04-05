@@ -169,11 +169,22 @@
             <th>BUKTI</th>
             <th>PROSES</th>
         </tr>
+
+        <?php
+        if (count($this->db->get_where('tagtteam', array('cnoteam' => $cnoteam))->result()) >= $cjmlagt) {
+          $attribTambahan = 'disabled';
+          $attribOnClick = null;
+        } else {
+          $attribTambahan = null;
+          $attribOnClick = "$('#form_anggota').submit()";
+        }
+        ?>
         <form id="form_anggota" action="<?php echo base_url('team/aksi_tambah_anggota'); ?>" method="post" enctype="multipart/form-data">
         <tr>
-            <input type="hidden" name="data[cnoteam]" value="<?php echo $cnoteam; ?>">
+            <input <?php echo $attribTambahan; ?> type="hidden" name="data[cnoteam]" value="<?php echo $cnoteam; ?>">
             <th colspan="2" style="text-align: center;">
-              <select class="form-control select2" name="data[cnim]">
+              <select <?php echo $attribTambahan; ?> class="form-control select2" id="dataCnim" name="data[cnim]">
+                <option value="">Pilih</option>
                 <?php
                 $sql = "SELECT *
                         FROM mmhs
@@ -193,13 +204,13 @@
               </select>
             </th>
             <th>
-              <input type="text" name="data[cprestasi]" class="form-control">
+              <input <?php echo $attribTambahan; ?> type="text" name="data[cprestasi]" class="form-control">
             </th>
             <th>
-              <input type="file" name="cbukti" class="form-control">
+              <input <?php echo $attribTambahan; ?> type="file" name="cbukti" class="form-control">
             </th>
             <th>
-              <a class="btn btn-success" onclick="$('#form_anggota').submit()"> <i class="fa fa-check"></i></a>
+              <a <?php echo $attribTambahan; ?> class="btn btn-success" onclick="<?php echo $attribOnClick; ?>"> <i class="fa fa-check"></i></a>
             </th>
         </tr>
         </form>
@@ -327,6 +338,12 @@
 <script type="text/javascript">
 $('form').submit(function () {
   if ($('#nokegiatan').val() == '' || $('#semester').val() == '') {
+      alert('Belum pilih');
+      return false;
+  }
+});
+$('#form_anggota').submit(function () {
+  if ($('#dataCnim').val() == '') {
       alert('Belum pilih');
       return false;
   }
