@@ -85,13 +85,31 @@
                     <option value="">Pilih</option>
                     <?php
                     foreach ($this->db->get('mkegiatan')->result() as $item) {
+                      switch ($item->ctingkat) {
+                        case 'l':
+                          $val_tingkat = 'Lokal';
+                          break;
+                        
+                        case 'n':
+                          $val_tingkat = 'Nasional';
+                          break;
+                        
+                        case 'i':
+                          $val_tingkat = 'Internasional';
+                          break;
+                        
+                        default:
+                          $val_tingkat = 'ERROR !!!';
+                          break;
+                      }
+                      $val_value = $item->cnmkegiatan  . ' | ' . $this->db->get_where('mkategori', array('cnokategori' => $item->cnokategori))->row()->cnmkategori . ' | ' . $val_tingkat;
                       if ($item->cnokegiatan == $cnokegiatan) {
                          ?>
-                        <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+                        <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $val_value; ?></option>
                         <?php
                       } else {
                          ?>
-                        <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
+                        <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $val_value; ?></option>
                         <?php
                       }
                     }
