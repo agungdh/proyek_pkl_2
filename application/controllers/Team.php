@@ -9,6 +9,30 @@ class Team extends CI_Controller {
 		$this->tabel = "mteammhs";
 	}
 
+	function ambil_detail_kegiatan($cnokegiatan) {
+		$kegiatan = $this->db->get_where('mkegiatan', array('cnokegiatan' => $cnokegiatan))->row();
+		switch ($kegiatan->ctingkat) {
+			case 'l':
+				$tingkat = 'Lokal';
+				break;
+			
+			case 'n':
+				$tingkat = 'Nasional';
+				break;
+			
+			case 'i':
+				$tingkat = 'Internasional';
+				break;
+			
+			default:
+				$tingkat = 'ERROR !!!';
+				break;
+		}
+		$kategori = $this->db->get_where('mkategori', array('cnokategori' => $kegiatan->cnokategori))->row()->cnmkategori;
+		echo json_encode(array('tingkat' => $tingkat,
+					 'kategori' => $kategori));
+	}
+
 	function aksi_tambah_anggota() {
 		foreach ($this->input->post('data') as $key => $value) {
 			$data[$key] = $value;

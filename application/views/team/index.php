@@ -85,31 +85,13 @@
                     <option value="">Pilih</option>
                     <?php
                     foreach ($this->db->get('mkegiatan')->result() as $item) {
-                      switch ($item->ctingkat) {
-                        case 'l':
-                          $val_tingkat = 'Lokal';
-                          break;
-                        
-                        case 'n':
-                          $val_tingkat = 'Nasional';
-                          break;
-                        
-                        case 'i':
-                          $val_tingkat = 'Internasional';
-                          break;
-                        
-                        default:
-                          $val_tingkat = 'ERROR !!!';
-                          break;
-                      }
-                      $val_value = $item->cnmkegiatan;
                       if ($item->cnokegiatan == $cnokegiatan) {
                          ?>
-                        <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $val_value; ?></option>
+                        <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
                         <?php
                       } else {
                          ?>
-                        <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $val_value; ?></option>
+                        <option value="<?php echo $item->cnokegiatan; ?>"><?php echo $item->cnmkegiatan; ?></option>
                         <?php
                       }
                     }
@@ -135,14 +117,14 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="nmteam">Tingkat</label>
-                  <input readonly type="text" class="form-control" id="" placeholder="Isi Tingkat">
+                  <input readonly type="text" class="form-control" id="kegiatan_tingkat" placeholder="Pilih Kegiatan">
                  </div>
               </div>
 
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="nmteam">Kategori</label>
-                  <input readonly type="text" class="form-control" id="nmteam" placeholder="Isi Kategori">
+                  <input readonly type="text" class="form-control" id="kegiatan_kategori" placeholder="Pilih Kegiatan">
                  </div>
               </div>
 
@@ -446,5 +428,19 @@ $('#tahun_ajar_akhir').change(function() {
 });
 $('#tanggal_lomba_awal').change(function() {
   $('#tanggal_lomba_akhir').val($('#tanggal_lomba_awal').val());
+});
+$('#nokegiatan').change(function() {
+  if ($('#nokegiatan').val() == "") {
+    $( "#kegiatan_kategori" ).val( "Pilih Kegiatan" );
+    $( "#kegiatan_tingkat" ).val( "Pilih Kegiatan" );
+  } else {
+    $.post( "<?php echo base_url('team/ambil_detail_kegiatan/'); ?>" + $('#nokegiatan').val(), function( data ) {
+      var json = jQuery.parseJSON(data);
+      // console.log(json.kategori);
+      // console.log(json.tingkat);
+      $( "#kegiatan_kategori" ).val( json.kategori );
+      $( "#kegiatan_tingkat" ).val( json.tingkat );
+    });
+  }
 });
 </script>
