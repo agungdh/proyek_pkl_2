@@ -102,7 +102,7 @@
                           $val_tingkat = 'ERROR !!!';
                           break;
                       }
-                      $val_value = $item->cnmkegiatan  . ' | ' . $this->db->get_where('mkategori', array('cnokategori' => $item->cnokategori))->row()->cnmkategori . ' | ' . $val_tingkat;
+                      $val_value = $item->cnmkegiatan;
                       if ($item->cnokegiatan == $cnokegiatan) {
                          ?>
                         <option selected value="<?php echo $item->cnokegiatan; ?>"><?php echo $val_value; ?></option>
@@ -131,6 +131,21 @@
 
           <div class="col col-md-12">
             <div class="row">
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="nmteam">Tingkat</label>
+                  <input readonly type="text" class="form-control" id="" placeholder="Isi Tingkat">
+                 </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="nmteam">Kategori</label>
+                  <input readonly type="text" class="form-control" id="nmteam" placeholder="Isi Kategori">
+                 </div>
+              </div>
+
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="nmteam">Nama Team</label>
@@ -146,7 +161,17 @@
                       <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
                     </select>
                   </div>
-              </div>              
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="tahun_ajar">Tahun Ajar</label><br>
+                    <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_awal" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
+                    /
+                    <input readonly value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -158,15 +183,6 @@
                       <input value="<?php echo $ctempatlomba; ?>" required type="text" class="form-control" id="tempat_lomba" placeholder="Isi Tempat Lomba" name="tempat_lomba">
                     </div>
                   </div>
-
-                <div class="col-md-6">
-                <div class="form-group">
-                  <label for="tahun_ajar">Tahun Ajar</label><br>
-                    <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_awal" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
-                    /
-                    <input readonly value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
-                </div>
-              </div>
 
                 </div>
                   </div>
