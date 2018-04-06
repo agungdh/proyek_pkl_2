@@ -5,7 +5,8 @@
 <script type="text/javascript" language="javascript" >
   $(document).ready(function() {
     $('#lookup').DataTable({
-      responsive: true
+      responsive: true,
+      order: [[ 0, "desc" ]]
     });
     // $('#lookup1').DataTable({
     //   responsive: true,
@@ -145,7 +146,7 @@
                   <label for="tahun_ajar">Tahun Ajar</label><br>
                     <input value="<?php echo substr($cthnajar, 0, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_awal" placeholder="Isi Tahun Ajar" name="tahun_ajar_awal">
                     /
-                    <input value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
+                    <input readonly value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
                 </div>
               </div>
 
