@@ -60,8 +60,8 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                    <label for="noteam">NO Team</label>
-                    <input readonly value="<?php echo $cnoteam; ?>" required type="text" class="form-control" id="noteam" placeholder="Isi NO Team" name="noteam">
+                    <label for="noteam">No Team</label>
+                    <input readonly value="<?php echo $cnoteam; ?>" required type="text" class="form-control" id="noteam" placeholder="Isi No Team" name="noteam">
                 </div>
               </div>
 
