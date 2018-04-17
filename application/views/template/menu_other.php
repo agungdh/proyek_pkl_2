@@ -3,6 +3,13 @@
 </li>
 
 <li>
+	<a href="<?php echo base_url("dashboard"); ?>">
+		<i class="fa fa-dashboard text-aqua"></i>
+		<span>dashboard</span>
+	</a>
+</li>
+
+<li>
 	<a href="<?php echo base_url("kategori"); ?>">
 		<i class="fa fa-trophy text-aqua"></i>
 		<span>Kategori</span>
@@ -26,6 +33,13 @@
 <li>
 	<a href="<?php echo base_url("team"); ?>">
 		<i class="fa fa-users text-aqua"></i>
-		<span>Team</span>
+		<span>Prestasi Team</span>
+	</a>
+</li>
+
+<li>
+	<a href="<?php echo base_url("laporan"); ?>">
+		<i class="fa fa-clone text-aqua"></i>
+		<span>Laporan</span>
 	</a>
 </li>

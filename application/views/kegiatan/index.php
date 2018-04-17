@@ -3,11 +3,20 @@
 // exit();
 ?>
 <script type="text/javascript" language="javascript" >
-  var dTable;
   $(document).ready(function() {
-    dTable = $('#lookup').DataTable({
-      responsive: true
+    $('#lookup').DataTable({
+      responsive: true,
+      order: [[ 0, "desc" ]]
     });
+
+    $('#lookup1').DataTable({
+      responsive: true,
+      order: [[ 0, "desc" ]]
+    });
+    // $('#lookup1').DataTable({
+    //   responsive: true,
+    //   orderCellsTop: true
+    // });
   });
 </script>
 
@@ -62,7 +71,7 @@
               <label for="tingkat">Tingkat</label>
                   <select class="form-control select2" id="tingkat" name="tingkat">
                     <option value="">Pilih</option>
-                    <option <?php echo $ctingkat == 'l' ? 'selected' : null; ?> value="l">Lokal</option>
+                    <option <?php echo $ctingkat == 'l' ? 'selected' : null; ?> value="l">Lokal/Regional/Wilayah</option>
                     <option <?php echo $ctingkat == 'n' ? 'selected' : null; ?> value="n">Nasional</option>
                     <option <?php echo $ctingkat == 'i' ? 'selected' : null; ?> value="i">Internasional</option>
                   </select>

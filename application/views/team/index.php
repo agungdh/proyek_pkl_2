@@ -8,6 +8,11 @@
       responsive: true,
       order: [[ 0, "desc" ]]
     });
+
+    $('#lookup1').DataTable({
+      responsive: true,
+      order: [[ 0, "desc" ]]
+    });
     // $('#lookup1').DataTable({
     //   responsive: true,
     //   orderCellsTop: true
@@ -129,20 +134,26 @@
               </div>
 
               <div class="col-md-6">
-                <div class="form-group">
-                  <label for="nmteam">Nama Team</label>
-                  <input value="<?php echo $cnmteam; ?>" required type="text" class="form-control" id="nmteam" placeholder="Isi Nama Team" name="nmteam">
-                 </div>
-              </div>
-              <div class="col-md-6">
                   <div class="form-group">
                     <label for="semester">Semester</label>
                     <select class="form-control select2" id="semester" name="semester">
-                      <option value="">Pilih</option>
+                      <option value="null">all</option>
                       <option <?php echo $csmt == 'o' ? 'selected' : null; ?> value="o">Gasal</option>
                       <option <?php echo $csmt == 'e' ? 'selected' : null; ?> value="e">Genap</option>
                     </select>
                   </div>
+              </div> 
+
+            </div>
+          </div>
+
+          <div class="col col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nmteam">Nama Team</label>
+                  <input value="<?php echo $cnmteam; ?>" required type="text" class="form-control" id="nmteam" placeholder="Isi Nama Team" name="nmteam">
+                 </div>
               </div>
 
               <div class="col-md-6">
@@ -153,7 +164,7 @@
                     <input readonly value="<?php echo substr($cthnajar, 4, 4); ?>" required type="number" min="1900" max="2900" class="" id="tahun_ajar_akhir" placeholder="Isi Tahun Ajar" name="tahun_ajar_akhir">
                 </div>
               </div>
-
+              
             </div>
           </div>
 
@@ -255,6 +266,7 @@
                             SELECT cnim
                             FROM tagtteam
                             WHERE cnoteam = ?
+                            ORDER BY `tagtteam`.`cnim` desc
                         )";
                 $query = $this->db->query($sql, array($cnoteam))->result();
                 foreach ($query as $item) {
@@ -342,8 +354,13 @@
         ?>
       </select>
       <input type="submit" class="btn btn-default" value="Filter">
-    </form>
+    </form> 
+
+    <a href="<?php echo base_url('Laporan/export'); ?>" class="btn btn-success pull-right"><i class="fa fa-file-excel-o"></i> Ekspor Excel</a>
+
+    <a href="<?php echo base_url('Laporan/pdf'); ?>" class="btn btn-danger pull-right" target="_blank" ><i class="fa fa-file-pdf-o"></i> Ekspor PDF</a><br/>
     <br/>
+    
 
       <table id="lookup" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
       <thead>
@@ -398,12 +415,13 @@
 </div><!-- /.box -->
 
 <script type="text/javascript">
-$('form').submit(function () {
-  if ($('#nokegiatan').val() == '' || $('#semester').val() == '') {
-      alert('Belum pilih');
-      return false;
-  }
-});
+// $('form').submit(function () {
+//   if ($('#nokegiatan').val() == '' || $('#semester').val() == '') {
+//       alert('Belum pilih');
+//       return false;
+//   }
+// });
+
 $('#form_anggota').submit(function () {
   if ($('#dataCnim').val() == '') {
       alert('Belum pilih');
