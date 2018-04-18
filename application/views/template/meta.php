@@ -23,6 +23,10 @@
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.
     -->
+
+    
+
+
     <link rel="stylesheet" href="<?php echo base_url() . "assets/"; ?>dist/css/skins/skin-blue.min.css">
     
     <link rel="stylesheet" href="<?php echo base_url() . "assets/"; ?>plugins/jQueryUI/jquery-ui.min.css">
@@ -41,6 +45,10 @@
     
     <!-- Bootstrap 3.3.5 -->
     <script type="text/javascript" language="javascript" src="<?php echo base_url() . "assets/"; ?>bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" language="javascript" src="<?php echo base_url() . "assets/plugins/"; ?>chartjs/Chart.js"></script>
+
+
     <!-- AdminLTE App -->
     <script type="text/javascript" language="javascript" src="<?php echo base_url() . "assets/"; ?>dist/js/app.min.js"></script>
 

@@ -6,7 +6,21 @@ class Team extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		$this->load->library('dompdf_gen');
 		$this->tabel = "mteammhs";
+	}
+
+	function index($cnoteam = null) {
+		$data['isi'] = "team/index";
+		if ($this->input->get('cnokegiatan') == null || $this->input->get('cnokegiatan') == "null" || $this->input->get('cnokegiatan') == "") {
+			
+		} else {
+			$this->db->where('cnokegiatan', $this->input->get('cnokegiatan'));
+		}
+		$data['data']['team'] = $this->db->get($this->tabel)->result();
+		$data['data']['ai'] = $this->m_universal->ai($this->tabel);
+		$data['data']['team_id'] = $this->db->get_where($this->tabel, array('cnoteam' => $cnoteam))->row();
+		$this->load->view("template/template", $data);
 	}
 
 	function ambil_detail_kegiatan($cnokegiatan) {
@@ -50,18 +64,7 @@ class Team extends CI_Controller {
 		redirect(base_url('team/index/' . $data['cnoteam']));
 	}
 
-	function index($cnoteam = null) {
-		$data['isi'] = "team/index";
-		if ($this->input->get('cnokegiatan') == null || $this->input->get('cnokegiatan') == "null" || $this->input->get('cnokegiatan') == "") {
-			
-		} else {
-			$this->db->where('cnokegiatan', $this->input->get('cnokegiatan'));
-		}
-		$data['data']['team'] = $this->db->get($this->tabel)->result();
-		$data['data']['ai'] = $this->m_universal->ai($this->tabel);
-		$data['data']['team_id'] = $this->db->get_where($this->tabel, array('cnoteam' => $cnoteam))->row();
-		$this->load->view("template/template", $data);
-	}
+	
 
 	function detail($id) {
 		$data['isi'] = "team/detail";
@@ -167,5 +170,20 @@ class Team extends CI_Controller {
 
 		redirect(base_url('team/index/' . $noteam));
 	}
+
+	public function get_pdf(){
+        
+        $this->load->view('coba2');
+
+        $paper_size = 'A4';
+        $orientation = 'vertikal';
+        $html = $this->output->get_output();
+
+        $this->dompdf->set_paper($paper_size, $orientation);
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->output();
+        $this->dompdf->stream("Dtm.pdf", array('Attachment'=>0));
+    }
 
 }
