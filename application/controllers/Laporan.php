@@ -63,16 +63,25 @@ class Laporan extends CI_Controller {
         
         $this->excel->getActiveSheet()->setTitle('Sheet 1');
         
+        foreach(range('A','F') as $columnID) {
+            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                ->setAutoSize(true);
+        }
+        foreach(range('H','L') as $columnID) {
+            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                ->setAutoSize(true);
+        }
+
         $this->excel->getActiveSheet()->setCellValue('A1', 'LAPORAN PRESTASI MAHASISWA');
         $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
         $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
-        $this->excel->getActiveSheet()->mergeCells('A1:G1');
+        $this->excel->getActiveSheet()->mergeCells('A1:M1');
         $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
         $this->excel->getActiveSheet()->setCellValue('A2', 'TAHUN AJAR ' . $this->input->get('tahun_ajar_awal') . '/' . $this->input->get('tahun_ajar_akhir'));
         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(20);
         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
-        $this->excel->getActiveSheet()->mergeCells('A2:G2');
+        $this->excel->getActiveSheet()->mergeCells('A2:M2');
         $this->excel->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         
         if($cs != null) {
@@ -81,8 +90,9 @@ class Laporan extends CI_Controller {
             $semester_jadi = "Semua Semester";
         }
         $this->excel->getActiveSheet()->setCellValue('A3', $semester_jadi);
-        $this->excel->getActiveSheet()->getStyle('A3')->getFont()->setSize(15);
-        $this->excel->getActiveSheet()->mergeCells('A3:G3');
+        $this->excel->getActiveSheet()->getStyle('A3')->getFont()->setSize(20);
+        $this->excel->getActiveSheet()->getStyle('A3')->getFont()->setBold(true);
+        $this->excel->getActiveSheet()->mergeCells('A3:M3');
         $this->excel->getActiveSheet()->getStyle('A3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
         $this->excel->getActiveSheet()->getStyle('A5:M6')->getFont()->setBold(true); 
@@ -184,13 +194,36 @@ class Laporan extends CI_Controller {
                 $this->excel->getActiveSheet()->setCellValue('D' . $a, $val_tingkat);
                 $this->excel->getActiveSheet()->setCellValue('E' . $a, $val_tempatTanggalPelaksanaan);
                 $this->excel->getActiveSheet()->setCellValue('F' . $a, $val_namaTeam);
-                $this->excel->getActiveSheet()->setCellValue('G' . $a, $val_fotoKegiatan);
+                
+                if (file_exists($val_fotoKegiatan)) {
+                // $this->excel->getActiveSheet()->setCellValue('G' . $a, 'ada');
+                    $objDrawing = new PHPExcel_Worksheet_Drawing();
+                    $objDrawing->setPath($val_fotoKegiatan);
+                    $objDrawing->setCoordinates('G' . $a);                      
+                    $objDrawing->setWidth(100); 
+                    $objDrawing->setHeight(100); 
+                    $objDrawing->setWorksheet($this->excel->getActiveSheet());
+                }
+                $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(19);
+                $this->excel->getActiveSheet()->getRowDimension($a)->setRowHeight(75);
+                
                 $this->excel->getActiveSheet()->setCellValue('H' . $a, $j);
                 $this->excel->getActiveSheet()->setCellValue('I' . $a, $mahasiswa->cnim);
                 $this->excel->getActiveSheet()->setCellValue('J' . $a, $mahasiswa->cnama);
                 $this->excel->getActiveSheet()->setCellValue('K' . $a, $fakultas);
                 $this->excel->getActiveSheet()->setCellValue('L' . $a, $item2->cprestasi);
-                $this->excel->getActiveSheet()->setCellValue('M' . $a, $item2->cbukti);
+                
+                if (file_exists($item2->cbukti)) {
+                // $this->excel->getActiveSheet()->setCellValue('M' . $a, 'ada');
+                    $objDrawing = new PHPExcel_Worksheet_Drawing();
+                    $objDrawing->setPath($$item2->cbukti);
+                    $objDrawing->setCoordinates('M' . $a);                      
+                    $objDrawing->setWidth(100); 
+                    $objDrawing->setHeight(100); 
+                    $objDrawing->setWorksheet($this->excel->getActiveSheet());
+                }
+                $this->excel->getActiveSheet()->getColumnDimension('M')->setWidth(19);
+                $this->excel->getActiveSheet()->getRowDimension($a)->setRowHeight(75);
 
                 $a++;
                 $j++;
