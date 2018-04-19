@@ -72,6 +72,21 @@ class Laporan extends CI_Controller {
                 ->setAutoSize(true);
         }
 
+          $styleArray = array(
+              'borders' => array(
+                  'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                  )
+              )
+          );
+          $styleArrayBold = array(
+              'borders' => array(
+                  'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                  )
+              )
+          );
+
         $this->excel->getActiveSheet()->setCellValue('A1', 'LAPORAN PRESTASI MAHASISWA');
         $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
         $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
@@ -95,6 +110,7 @@ class Laporan extends CI_Controller {
         $this->excel->getActiveSheet()->mergeCells('A3:M3');
         $this->excel->getActiveSheet()->getStyle('A3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
+        $this->excel->getActiveSheet()->getStyle('A5:M6')->applyFromArray($styleArrayBold);
         $this->excel->getActiveSheet()->getStyle('A5:M6')->getFont()->setBold(true); 
         $this->excel->getActiveSheet()->setCellValue('A5', 'NO');
         $this->excel->getActiveSheet()->mergeCells('A5:A6');
@@ -124,20 +140,6 @@ class Laporan extends CI_Controller {
 
         $i = 1;
         $a = 7;
-          $styleArray = array(
-              'borders' => array(
-                  'allborders' => array(
-                      'style' => PHPExcel_Style_Border::BORDER_THIN
-                  )
-              )
-          );
-          $styleArrayBold = array(
-              'borders' => array(
-                  'allborders' => array(
-                      'style' => PHPExcel_Style_Border::BORDER_MEDIUM
-                  )
-              )
-          );
         foreach ($data['data']['team'] as $item) {
             $kegiatan = $this->db->get_where('mkegiatan', array('cnokegiatan' => $item->cnokegiatan))->row();
             $kategori = $this->db->get_where('mkategori', array('cnokategori' => $kegiatan->cnokategori))->row();
@@ -159,6 +161,7 @@ class Laporan extends CI_Controller {
             $val_fotoKegiatan = $item->cfoto;
 
             foreach ($this->db->get_where('tagtteam', array('cnoteam' => $item->cnoteam))->result() as $item2) {
+                $this->excel->getActiveSheet()->getStyle('A' . $a . ':'. 'M' . $a)->applyFromArray($styleArray);
                 $mahasiswa = $this->db->get_where('mmhs', array('cnim' => $item2->cnim))->row();
                 $param_fk = substr($mahasiswa->cnim, 2, 1);
                 switch ($param_fk) {
@@ -204,7 +207,7 @@ class Laporan extends CI_Controller {
                     $objDrawing->setHeight(100); 
                     $objDrawing->setWorksheet($this->excel->getActiveSheet());
                 }
-                $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(19);
+                $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(26);
                 $this->excel->getActiveSheet()->getRowDimension($a)->setRowHeight(75);
                 
                 $this->excel->getActiveSheet()->setCellValue('H' . $a, $j);
@@ -222,7 +225,7 @@ class Laporan extends CI_Controller {
                     $objDrawing->setHeight(100); 
                     $objDrawing->setWorksheet($this->excel->getActiveSheet());
                 }
-                $this->excel->getActiveSheet()->getColumnDimension('M')->setWidth(19);
+                $this->excel->getActiveSheet()->getColumnDimension('M')->setWidth(26);
                 $this->excel->getActiveSheet()->getRowDimension($a)->setRowHeight(75);
 
                 $a++;
