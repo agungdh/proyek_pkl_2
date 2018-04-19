@@ -3,7 +3,6 @@
 class Laporan extends CI_Controller {
     function __construct(){
         parent::__construct();
-        $this->load->library('dompdf_gen');
         $this->tabel = "mteammhs";
         // $this->load->model('mread'); // memanggil model mread
     }
@@ -86,7 +85,7 @@ class Laporan extends CI_Controller {
         $this->excel->getActiveSheet()->mergeCells('A3:G3');
         $this->excel->getActiveSheet()->getStyle('A3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-        $this->excel->getActiveSheet()->getStyle('A5:L6')->getFont()->setBold(true); 
+        $this->excel->getActiveSheet()->getStyle('A5:M6')->getFont()->setBold(true); 
         $this->excel->getActiveSheet()->setCellValue('A5', 'NO');
         $this->excel->getActiveSheet()->mergeCells('A5:A6');
         $this->excel->getActiveSheet()->setCellValue('B5', 'KATEGORI');
@@ -102,13 +101,14 @@ class Laporan extends CI_Controller {
         $this->excel->getActiveSheet()->setCellValue('G5', 'FOTO KEGIATAN');
         $this->excel->getActiveSheet()->mergeCells('G5:G6');
         $this->excel->getActiveSheet()->setCellValue('H5', 'MAHASISWA PESERTA KEJUARAAN');
-        $this->excel->getActiveSheet()->mergeCells('H5:L5');
+        $this->excel->getActiveSheet()->mergeCells('H5:M5');
         
-        $this->excel->getActiveSheet()->setCellValue('H6', 'NIM');
-        $this->excel->getActiveSheet()->setCellValue('I6', 'NAMA');
-        $this->excel->getActiveSheet()->setCellValue('J6', 'FAKULTAS');
-        $this->excel->getActiveSheet()->setCellValue('K6', 'BUKTI PRESTASI');
-        $this->excel->getActiveSheet()->setCellValue('L6', 'PRESTASI YANG DICAPAI');
+        $this->excel->getActiveSheet()->setCellValue('H6', 'NO');
+        $this->excel->getActiveSheet()->setCellValue('I6', 'NIM');
+        $this->excel->getActiveSheet()->setCellValue('J6', 'NAMA');
+        $this->excel->getActiveSheet()->setCellValue('K6', 'FAKULTAS');
+        $this->excel->getActiveSheet()->setCellValue('L6', 'BUKTI PRESTASI');
+        $this->excel->getActiveSheet()->setCellValue('M6', 'PRESTASI YANG DICAPAI');
 
 
 
@@ -179,19 +179,20 @@ class Laporan extends CI_Controller {
                 }
 
                 $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_no);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_kategori);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_kegiatan);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_tingkat);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_tempatTanggalPelaksanaan);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_namaTeam);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_fotoKegiatan);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $j);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $mahasiswa->cnim);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $mahasiswa->cnama);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $fakultas);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $item2->cprestasi);
-                $this->excel->getActiveSheet()->setCellValue('A' . $a, $item2->cbukti);
+                $this->excel->getActiveSheet()->setCellValue('B' . $a, $val_kategori);
+                $this->excel->getActiveSheet()->setCellValue('C' . $a, $val_kegiatan);
+                $this->excel->getActiveSheet()->setCellValue('D' . $a, $val_tingkat);
+                $this->excel->getActiveSheet()->setCellValue('E' . $a, $val_tempatTanggalPelaksanaan);
+                $this->excel->getActiveSheet()->setCellValue('F' . $a, $val_namaTeam);
+                $this->excel->getActiveSheet()->setCellValue('G' . $a, $val_fotoKegiatan);
+                $this->excel->getActiveSheet()->setCellValue('H' . $a, $j);
+                $this->excel->getActiveSheet()->setCellValue('I' . $a, $mahasiswa->cnim);
+                $this->excel->getActiveSheet()->setCellValue('J' . $a, $mahasiswa->cnama);
+                $this->excel->getActiveSheet()->setCellValue('K' . $a, $fakultas);
+                $this->excel->getActiveSheet()->setCellValue('L' . $a, $item2->cprestasi);
+                $this->excel->getActiveSheet()->setCellValue('M' . $a, $item2->cbukti);
 
+                $a++;
                 $j++;
                 $val_no = null;
                 $val_kategori = null;
@@ -353,36 +354,6 @@ class Laporan extends CI_Controller {
         }else{
             redirect('Excel');
         }
-    }
-
-
-    public function pdf(){
-        $this->load->view('laporan/pdf');
-
-        $paper_size = 'A4';
-        $orientation = 'horizontal';
-        $html = $this->output->get_output();
-
-        $this->dompdf->set_paper($paper_size, $orientation);
-        $this->dompdf->load_html($html);
-        $this->dompdf->render();
-        $this->dompdf->output();
-        $this->dompdf->stream("Dtm.pdf", array('Attachment'=>0));
-    }
-
-    public function pdf_filter($tahun, $semester){
-        $data['data']['team'] = $this->db->get_where($this->tabel, array('cthnajar' => $tahun, 'csmt' => $semester))->result();
-        $this->load->view('laporan/pdf_filter',$data);
-
-        $paper_size = 'A4';
-        $orientation = 'horizontal';
-        $html = $this->output->get_output();
-
-        $this->dompdf->set_paper($paper_size, $orientation);
-        $this->dompdf->load_html($html);
-        $this->dompdf->render();
-        $this->dompdf->output();
-        $this->dompdf->stream("Dtm.pdf", array('Attachment'=>0));
     }
 
     public function coba(){

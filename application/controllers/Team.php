@@ -6,7 +6,6 @@ class Team extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->library('dompdf_gen');
 		$this->tabel = "mteammhs";
 	}
 
@@ -171,19 +170,5 @@ class Team extends CI_Controller {
 		redirect(base_url('team/index/' . $noteam));
 	}
 
-	public function get_pdf(){
-        
-        $this->load->view('coba2');
-
-        $paper_size = 'A4';
-        $orientation = 'vertikal';
-        $html = $this->output->get_output();
-
-        $this->dompdf->set_paper($paper_size, $orientation);
-        $this->dompdf->load_html($html);
-        $this->dompdf->render();
-        $this->dompdf->output();
-        $this->dompdf->stream("Dtm.pdf", array('Attachment'=>0));
-    }
 
 }
