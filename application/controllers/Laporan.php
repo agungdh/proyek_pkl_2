@@ -4,7 +4,6 @@ class Laporan extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->library('dompdf_gen');
-        $this->load->library(array('PHPExcel','PHPExcel/IOFactory'));
         $this->tabel = "mteammhs";
         // $this->load->model('mread'); // memanggil model mread
     }
@@ -58,136 +57,161 @@ class Laporan extends CI_Controller {
         // echo $this->db->last_query();
         $data['data']['ai'] = $this->m_universal->ai($this->tabel);
 
-        ?>
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title></title>
-        </head>
-        <body>
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">Kategori</th>
-                        <th rowspan="2">Kegiatan</th>
-                        <th rowspan="2">Tingkat</th>
-                        <th rowspan="2">Tempat, Tanggal Pelaksanaan</th>
-                        <th rowspan="2">Nama Team</th>
-                        <th rowspan="2">Foto Kegiatan</th>
-                        <th colspan="6">Mahasiswa Peserta Kejuaraan</th>
-                    </tr>
-                    <tr>
-                        <th>NO</th>
-                        <th>NIM</th>
-                        <th>Nama</th>
-                        <th>Fakultas</th>
-                        <th>Prestasi</th>
-                        <th>Bukti Prestasi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 1;
-                    foreach ($data['data']['team'] as $item) {
-                        $kegiatan = $this->db->get_where('mkegiatan', array('cnokegiatan' => $item->cnokegiatan))->row();
-                        $kategori = $this->db->get_where('mkategori', array('cnokategori' => $kegiatan->cnokategori))->row();
-                        if ($kegiatan->ctingkat == 'l') {
-                            $tingkat = 'Lokal';
-                        } elseif ($kegiatan->ctingkat == 'n') {
-                            $tingkat = 'Nasional';
-                        } elseif ($kegiatan->ctingkat == 'i') {
-                            $tingkat = 'Internasional';                            
-                        }
-                        $j = 1;
+        $this->load->library('excel');
+        
+        $this->excel->setActiveSheetIndex(0);
+        $this->excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+        
+        $this->excel->getActiveSheet()->setTitle('Sheet 1');
+        
+        $this->excel->getActiveSheet()->setCellValue('A1', 'LAPORAN PRESTASI MAHASISWA');
+        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(20);
+        $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+        $this->excel->getActiveSheet()->mergeCells('A1:G1');
+        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-                        $val_no = $j;
-                        $val_kategori = $kategori->cnmkategori;
-                        $val_kegiatan = $kegiatan->cnmkegiatan;
-                        $val_tingkat = $tingkat;
-                        $val_tempatTanggalPelaksanaan = $item->ctempatlomba . ', ' . $this->pustaka->tanggal_indo($item->dtglawallomba) . ' - ' . $this->pustaka->tanggal_indo($item->dtglakhirlomba);
-                        $val_namaTeam = $item->cnmteam;
-                        $val_fotoKegiatan = $item->cfoto;
+        $this->excel->getActiveSheet()->setCellValue('A2', 'TAHUN AJAR ' . $this->input->get('tahun_ajar_awal') . '/' . $this->input->get('tahun_ajar_akhir'));
+        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(20);
+        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+        $this->excel->getActiveSheet()->mergeCells('A2:G2');
+        $this->excel->getActiveSheet()->getStyle('A2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        
+        if($cs != null) {
+            $semester_jadi = $cs == 'e' ? 'Semester Genap' : 'Semester Gasal';
+        } else {
+            $semester_jadi = "Semua Semester";
+        }
+        $this->excel->getActiveSheet()->setCellValue('A3', $semester_jadi);
+        $this->excel->getActiveSheet()->getStyle('A3')->getFont()->setSize(15);
+        $this->excel->getActiveSheet()->mergeCells('A3:G3');
+        $this->excel->getActiveSheet()->getStyle('A3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-                        foreach ($this->db->get_where('tagtteam', array('cnoteam' => $item->cnoteam))->result() as $item2) {
-                            $mahasiswa = $this->db->get_where('mmhs', array('cnim' => $item2->cnim))->row();
-                            $param_fk = substr($mahasiswa->cnim, 2, 1);
-                            switch ($param_fk) {
-                                case '1':
-                                    $fakultas = 'FTI';
-                                    break;
-                                case '2':
-                                    $fakultas = 'ASTRI';
-                                    break;
-                                case '3':
-                                    $fakultas = 'FEB';
-                                    break;
-                                case '4':
-                                    $fakultas = 'FISIP';
-                                    break;
-                                case '5':
-                                    $fakultas = 'FT';
-                                    break;
-                                case '6':
-                                    $fakultas = 'PASCASARJANA';
-                                    break;
-                                case '7':
-                                    $fakultas = 'FIKOM';
-                                    break;
-                                default:
-                                    $fakultas = 'ERROR !!!';
-                                    break;
-                            }
-                            ?>
-                            <tr>
-                                <td><?php echo $val_no; ?></td>
-                                <td><?php echo $val_kategori; ?></td>
-                                <td><?php echo $val_kegiatan; ?></td>
-                                <td><?php echo $val_tingkat; ?></td>
-                                <td><?php echo $val_tempatTanggalPelaksanaan; ?></td>
-                                <td><?php echo $val_namaTeam; ?></td>
-                                <td>
-                                  <?php
-                                  if (file_exists($val_fotoKegiatan)) {
-                                    ?>
-                                    <img src="<?php echo base_url($val_fotoKegiatan); ?>" width="150" height="150">
-                                    <?php
-                                  }
-                                  ?>
-                                </td>
-                                <td><?php echo $j; ?></td>
-                                <td><?php echo $mahasiswa->cnim; ?></td>
-                                <td><?php echo $mahasiswa->cnama; ?></td>
-                                <td><?php echo $fakultas; ?></td>
-                                <td><?php echo $item2->cprestasi; ?></td>
-                                <td>
-                                  <?php
-                                  if (file_exists($item2->cbukti)) {
-                                    ?>
-                                    <img src="<?php echo base_url($item2->cbukti); ?>" width="150" height="150">
-                                    <?php
-                                  }
-                                  ?>
-                                </td>
-                            </tr>
-                            <?php                
-                            $j++;
-                            $val_no = null;
-                            $val_kategori = null;
-                            $val_kegiatan = null;
-                            $val_tingkat = null;
-                            $val_tempatTanggalPelaksanaan = null;
-                            $val_namaTeam = null;
-                            $val_fotoKegiatan = null;
-                        }
-                        $i++;
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </body>
-        </html>
-        <?php
+        $this->excel->getActiveSheet()->getStyle('A5:L6')->getFont()->setBold(true); 
+        $this->excel->getActiveSheet()->setCellValue('A5', 'NO');
+        $this->excel->getActiveSheet()->mergeCells('A5:A6');
+        $this->excel->getActiveSheet()->setCellValue('B5', 'KATEGORI');
+        $this->excel->getActiveSheet()->mergeCells('B5:B6');
+        $this->excel->getActiveSheet()->setCellValue('C5', 'KEGIATAN');
+        $this->excel->getActiveSheet()->mergeCells('C5:C6');
+        $this->excel->getActiveSheet()->setCellValue('D5', 'TINGKAT');
+        $this->excel->getActiveSheet()->mergeCells('D5:D6');
+        $this->excel->getActiveSheet()->setCellValue('E5', 'TEMPAT, TANGGAL PELAKSANAAN');
+        $this->excel->getActiveSheet()->mergeCells('E5:E6');
+        $this->excel->getActiveSheet()->setCellValue('F5', 'NAMA TEAM');
+        $this->excel->getActiveSheet()->mergeCells('F5:F6');
+        $this->excel->getActiveSheet()->setCellValue('G5', 'FOTO KEGIATAN');
+        $this->excel->getActiveSheet()->mergeCells('G5:G6');
+        $this->excel->getActiveSheet()->setCellValue('H5', 'MAHASISWA PESERTA KEJUARAAN');
+        $this->excel->getActiveSheet()->mergeCells('H5:L5');
+        
+        $this->excel->getActiveSheet()->setCellValue('H6', 'NIM');
+        $this->excel->getActiveSheet()->setCellValue('I6', 'NAMA');
+        $this->excel->getActiveSheet()->setCellValue('J6', 'FAKULTAS');
+        $this->excel->getActiveSheet()->setCellValue('K6', 'BUKTI PRESTASI');
+        $this->excel->getActiveSheet()->setCellValue('L6', 'PRESTASI YANG DICAPAI');
+
+
+
+        $i = 1;
+        $a = 7;
+          $styleArray = array(
+              'borders' => array(
+                  'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_THIN
+                  )
+              )
+          );
+          $styleArrayBold = array(
+              'borders' => array(
+                  'allborders' => array(
+                      'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                  )
+              )
+          );
+        foreach ($data['data']['team'] as $item) {
+            $kegiatan = $this->db->get_where('mkegiatan', array('cnokegiatan' => $item->cnokegiatan))->row();
+            $kategori = $this->db->get_where('mkategori', array('cnokategori' => $kegiatan->cnokategori))->row();
+            if ($kegiatan->ctingkat == 'l') {
+                $tingkat = 'Lokal';
+            } elseif ($kegiatan->ctingkat == 'n') {
+                $tingkat = 'Nasional';
+            } elseif ($kegiatan->ctingkat == 'i') {
+                $tingkat = 'Internasional';                            
+            }
+            $j = 1;
+
+            $val_no = $i;
+            $val_kategori = $kategori->cnmkategori;
+            $val_kegiatan = $kegiatan->cnmkegiatan;
+            $val_tingkat = $tingkat;
+            $val_tempatTanggalPelaksanaan = $item->ctempatlomba . ', ' . $this->pustaka->tanggal_indo($item->dtglawallomba) . ' - ' . $this->pustaka->tanggal_indo($item->dtglakhirlomba);
+            $val_namaTeam = $item->cnmteam;
+            $val_fotoKegiatan = $item->cfoto;
+
+            foreach ($this->db->get_where('tagtteam', array('cnoteam' => $item->cnoteam))->result() as $item2) {
+                $mahasiswa = $this->db->get_where('mmhs', array('cnim' => $item2->cnim))->row();
+                $param_fk = substr($mahasiswa->cnim, 2, 1);
+                switch ($param_fk) {
+                    case '1':
+                        $fakultas = 'FTI';
+                        break;
+                    case '2':
+                        $fakultas = 'ASTRI';
+                        break;
+                    case '3':
+                        $fakultas = 'FEB';
+                        break;
+                    case '4':
+                        $fakultas = 'FISIP';
+                        break;
+                    case '5':
+                        $fakultas = 'FT';
+                        break;
+                    case '6':
+                        $fakultas = 'PASCASARJANA';
+                        break;
+                    case '7':
+                        $fakultas = 'FIKOM';
+                        break;
+                    default:
+                        $fakultas = 'ERROR !!!';
+                        break;
+                }
+
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_no);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_kategori);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_kegiatan);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_tingkat);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_tempatTanggalPelaksanaan);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_namaTeam);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $val_fotoKegiatan);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $j);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $mahasiswa->cnim);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $mahasiswa->cnama);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $fakultas);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $item2->cprestasi);
+                $this->excel->getActiveSheet()->setCellValue('A' . $a, $item2->cbukti);
+
+                $j++;
+                $val_no = null;
+                $val_kategori = null;
+                $val_kegiatan = null;
+                $val_tingkat = null;
+                $val_tempatTanggalPelaksanaan = null;
+                $val_namaTeam = null;
+                $val_fotoKegiatan = null;
+            }
+            $i++;
+        }
+
+        $filename='DATA test.xlsx'; 
+        header('Content-Type: application/vnd.ms-excel'); 
+        header('Content-Disposition: attachment;filename="'.$filename.'"'); 
+        header('Cache-Control: max-age=0'); 
+        
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');  
+        
+        $objWriter->save('php://output');
     }
 
     public function export(){
